@@ -1,0 +1,264 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=1in]{geometry} 
+\usepackage{amsmath,amsthm,amssymb,amsfonts}
+\usepackage[utf8]{inputenc}
+\usepackage[slovak]{babel}
+
+\newcommand{\pipesep}{\hspace{3pt} \vert \hspace{3pt}}
+\setlength\parindent{0pt}
+
+\begin{document}
+
+\title{Poznamky z MATu}
+\author{Marek Milkovic}
+\date{}
+\maketitle
+
+\section{Vyrokova logika}
+
+Vyrokova logika skuma sposob tvorby zlozenych vyrokov z danych jednoduchych vyrokov a zavislosti
+pravdivosti zlozeneho vyroku na pravdivosti vyrokov z ktorych je zlozeny.
+\\
+$P$ - neprazdna mnozina symbolov - \emph{prvotnych vyrokov} \\
+Prvotne vyroky predstavuju jednoduche vyroky. Zlozene vyroky sa skladaju z jednoduchych pomocou
+logickych spojek - $\neg, \land, \lor, \to, \leftrightarrow$. \\
+$L_{P}$ - jazyk vyrokovej logiky - prvky $P$, logicke spojky a zatvorky $()$. \\
+Ulohu zlozenych vyrokov hraju \emph{vyrokove formule} jazyka $L_{P}$, ktore vznikaju ako:
+\begin{enumerate}
+		\item Kazda prvotna formula $p \in P$ je vyrokova formula
+		\item Ak su $A,B$ vyrokove formule, tak aj $\neg A$, $A \land B$, $A \lor B$,
+			$A \to B$, $A \leftrightarrow B$.
+		\item Kazda vyrokova formula vznikne konecnym poctom pouzitia pravidiel 1 a 2
+\end{enumerate}
+\vspace{1cm}
+Pravdivostne ohodnotenie prvotnych formuli - $v: P \to \{0,1\}$ \\
+Rozsirenie na vsetky formule - $\bar{v}$
+\begin{enumerate}
+		\item $\bar{v}(p) = v(p) \forall p \in P$
+		\item Ak su $A,B$ vyrokove formule, tak $\bar{v}(\neg A), \bar{v}(A \land B),
+			\bar{v}(A \lor B), \bar{v}(A \to B), \bar{v}(A \leftrightarrow B)$ sa definuje pomocou
+			pravdivostnej tabulky v zavislosti na hodnote $\bar{v}(A), \bar{v}(B)$
+			(a tie pozname velmi dobre)
+\end{enumerate}
+Vyrokova formula $A$ je pravdiva pri ohodnoteni $v$ - $\bar{v}(A) = 1$ \\
+Vyrokova formula $A$ je tautologia ak $\bar{v}(A) = 1$ pre lubovolne ohodnotenie $v$ - $\models A$\\
+Vyrokove formule su \emph{ekvivalentne} prave vtedy ak $\bar{v}(A) = \bar{v}(A)$ pre lubovolne
+	ohodnotenie $v$ - $A \leftrightarrow B$ musi byt tautologia \\
+Kazda vyrokova formula je logicky ekvivalentna niektorej vyrokovej formuli, v ktorej su len spojky
+	$\neg, \to$ (ale aj $\neg, \land$ a $\neg, \lor$) \\
+\begin{enumerate}
+\item Nicodova spojka - $\downarrow$ - NOR
+\item Shefferova spojka - $\vert$ - NAND
+\end{enumerate}
+\subsection{Dokazatelnost vo vyrokovej logike}
+Vyrokova logika bude budovana ako formalna axiomaticka teoria \\
+\textbf{Abeceda}
+\begin{enumerate}
+	\item mnozina $P$
+	\item logicke spojky $\neg, \to$
+	\item pomocne symboly $()$
+\end{enumerate}
+\textbf{Formule}
+\begin{enumerate}
+	\item vsetky prvotne formule su formule
+	\item ak su $A$, $B$ formule tak aj $\neg A$ a $A \to B$ su formule
+	\item opakovanim 1 a 2 vznikaju formule
+\end{enumerate}
+\textbf{Jazyk} - abeceda a formule tvoria jazyk \\
+\textbf{Axiomy} - nekonecne mnoho axiomu zadanych pomocou 3 schemat
+\begin{itemize}
+	\item (A1) $A \to (B \to A)$
+	\item (A2) $(A \to (B \to C)) \to ((A \to B) \to (A \to C))$
+	\item (A3) $(\neg B \to \neg A) \to (A \to B)$
+\end{itemize}
+\textbf{Odvodzovacie pravidlo} - \emph{Modus ponens} - pravidlo odlucenia -
+	z formuli $A, (A \to B)$ sa odvodi $B$. $A, (A \to B)$ su predpoklady, $B$ je zaver \\
+\textbf{Dokaz} - lubovolna konecna postupnost $A_{1}, ..., A_{n}$ vyrokovych formuli takych,
+	ze $\forall i \le n$ je $A_{i}$ bud axiom, alebo zaver pravidla modus ponens \\
+- Formula $A$ je \emph{dokazatelna}, ak existuje dokaz, ktoreho poslednou formulou je $A$
+- $\vdash A$ \\
+- Kazda dokazatelna formula vo vyrokovej logike je tautologia \\
+\vspace{0.5cm}
+Nech $T$ je mnozina formuli vyrokovej logiky. Hovorime, ze konecna postupnost $A_{1},...,A_{n}$
+je \emph{dokazom formule A z predpokladu T}, ak $A_{n}$ je formula $A$ a pre lubovolne
+$i \le n$ plati ze $A_{i}$ je bud axiom, alebo formula z $T$ alebo $A_{i}$ je zaverom
+modus ponens - formula $A$ je \emph{dokazatelna z predpoklatu T} - $T \vdash A$ \\
+\textbf{Veta o dedukcii} - Nech $T$ je mnozina formuli, nech $A,B$ su formule, potom
+	$T \vdash A \to B$ prave vtedy ked $T \cup \{A\} \vdash B$. \\
+\textbf{Veta o uplnosti} - pre lubovolnu formulu $A$ vo vyrokovej logike plati $\vdash A$,
+prave ked $\models A$.
+
+\section{Predikatova logika 1.radu}
+\textbf{Premenne} - prvky z nejakej mnoziny \\
+\textbf{Funkcne symboly} - $f,g,h...$ - operacie, $n$-arny symbol \\
+\textbf{Predikat} - vztah medzi urcitym poctom objektov \\
+\textbf{Predikatovy symbol} - $p,q,r...$ - vyjadrujeme nimi predikaty - $n$-arny symbol \\
+\textbf{Atomicka formula} - zlozena premennych, konstant, funkcnych symbolov
+	a predikatovych symbolov\\
+\textbf{Logicke spojky} - rovnake ako vo vyrokovej logike\\
+\textbf{Kvantifikatory premennych} - univerzalny $\forall$ a existencny $\exists$\\
+\textbf{Abeceda jazyka predikatovej logiky} - premenne, konstanty, funkcne a predikatove symboly,
+	logicke spojky, kvantifikatory a pomocne symboly $()$\\
+Premenna predikatovej logiky 1. radu predstavuje konkretny objekt, nedokaze predstavovat
+inu mnozinu \\
+
+\textbf{Term}
+\begin{enumerate}
+	\item Kazda premenna je term
+	\item Ak je $f$ $n$-arny funkcny symbol, a $t_{1},...,t_{n}$ su termy, tak aj
+		$f(t_{1},...,t_{n})$ je term
+	\item Konecny uzitim pravidiel 1 a 2 vznikne term
+\end{enumerate}
+
+\textbf{Atomicka formula}\\
+Ak je $p$ $n$-arny predikatovy symbol a $t_{1},...,t_{n}$ su termy, tak $p(t_{1},...,t_{n})$
+je \emph{atomicka formula} \\
+
+\textbf{Formule} \\
+\begin{enumerate}
+	\item Kazda atomicka formula je formula
+	\item Ak su $\varphi, \psi$ formule, tak aj $\neg \varphi, \varphi \land \psi, \varphi \lor \psi,
+		\varphi \to \psi, \varphi \leftrightarrow \psi$ su formule
+	\item Ak je $x$ premenna a $\varphi$ formula, tak $\forall x \varphi$ a $\exists x \varphi$
+		su formule
+	\item Kazda formula vznikne konecnym uzitim formuli 1-3
+\end{enumerate}
+Vyskyt premennej $x$ vo formuli $\varphi$ sa nazyva viazany, ak sa nachadza v nejakej podformuli
+v tvare $\forall x \psi$ alebo $\exists x \psi$. V opacnom pripade sa jedna o vyskyt volny.
+Formula co neobsahuje ziadnu volnu premennu sa nazyva \emph{uzavrena formula} alebo aj \emph{vyrok}.
+\subsection{Semantika predikatovej logiky}
+Chceme dat intepretaciu symbolom jazyka predikatovej logiky 1. radu. Vymedzime teda obor,
+ktory bude urcovat mozne hodnoty premennych $M$. Funkcnym symbolom budu odpovedat operacie na $M$.
+Predikatovym symbolom budu odpovedat vztahy medzi objektami $M$, ktore je mozne popisat ako
+relacie na $M$. \\
+\\
+\textbf{Realizacia jazyka} - Nech je $L$ jazyk 1. radu. Realizaciou jazyka rozumieme algebraicku
+strukturu $\mathcal{M}$, ktora sa sklada z
+\begin{enumerate}
+	\item neprazdnej mnoziny $M$, ktoru nazveme \emph{univerzum}
+	\item pre kazdy funkcny symbol $f$ pocetnosti $n$ je dane zobrazenie
+		$f_{\mathcal{M}}: M^{n} \to M$
+	\item pre kazdy predikatovy symbol $p$ pocetnosti $n$, okrem rovnosti, je dana relacia
+		$p_{\mathcal{M}} \subseteq M^{n}$
+\end{enumerate}
+\textbf{Ohodnotenie premennych} - Lubovolne zobrazenie $e$ mnoziny vsetkych premennych do
+univerza $M$ dane realizaciou $\mathcal{M}$ jazyka $L$ \\
+- Ak je $x$ premenna, $e$ ohodnotenie premennych, $m \in M$, potom znacime $e(x/m)$ \\
+- \textbf{Hodnotu termu} $t$ v realizacii $\mathcal{M}$ pri danom ohodnoteni $e$ znacime
+	$t[e]$ a definovana je nasledovne
+	\begin{enumerate}
+		\item Ak je $t$ premenna $x$ potom $t[e]$ je $e(x)$
+		\item Ak je $t$ v tvare $f(t_{1},...,t_{n})$, kde $f$ je $n$-arny funkcny symbol
+			a $t_{i}$ su termy, potom $t[e]$ je $f_{\mathcal{M}}(t_{1}[e],...,t_{n}[e])$
+	\end{enumerate}
+\vspace{0.5cm}
+Nech $\mathcal{M}$ je realizacia jazyka $L$, nech $e$ je ohodnotenie premennych a $\varphi$
+je formula jazyka $L$. Definujeme, co znamena \emph{formula $\varphi$ je pravidva v
+$\mathcal{M}$ pri ohodnoteni e} - $\mathcal{M} \models \varphi[e]$
+\begin{enumerate}
+	\item Ak je $\varphi$ atomicka formula v tvare $p(t_{1},...,t_{n})$, tak
+		$\mathcal{M} \models \varphi[e]$ prave ked $(t_{1}[e],...,t_{n}[e]) \in p_{\mathcal{M}}$
+	\item Ak je $\varphi$ atomicka formula v tvare $t_{1} = t_{2}$, tak
+		$\mathcal{M} \models \varphi[e]$ prave ked $t_{1}[e]$ je ten isty prvok ako $t_{2}[e]$
+	\item Ak je $\varphi$ v tvare $\neg \psi$, tak 
+		$\mathcal{M} \models \varphi[e]$ prave ked $\mathcal{M} \not\models \psi[e]$
+	\item Ak je $\varphi$ v tvare $\eta \land \psi$, $\eta \lor \psi$, $\eta \to \psi$,
+		$\eta \leftrightarrow \psi$ tak $\mathcal{M} \models (\eta \land \psi)[e]$ prave vtedy ak
+		$\mathcal{M} \models \eta[e]$ a zaroven $\mathcal{M} \models \psi[e]$ a analogicky
+		pre zvysok
+	\item Ak je $\varphi$ v tvare $\forall x \psi$, tak
+		$\mathcal{M} \models \varphi[e]$ prave vtedy ak
+		$\forall m \in M : \mathcal{M} \models \psi[e(x/m)]$
+	\item Ak je $\varphi$ v tvare $\exists x \psi$, tak
+		$\mathcal{M} \models \varphi[e]$ prave vtedy ak
+		$\exists m \in M : \mathcal{M} \models \psi[e(x/m)]$
+\end{enumerate}
+Formula $\varphi$ je \emph{splnena} v realizacii $\mathcal{M}$, ak je $\varphi$ pravdiva
+v $\mathcal{M}$ pri kazdom ohodnoteni $e$. Potom piseme $\mathcal{M} \models \varphi$.
+
+Ak je $\varphi$ uzavrena formula, tak vravime ze $\varphi$ je \emph{pravdiva} v $\mathcal{M}$.
+
+Formula sa nazyva \emph{splnitelna}, ak je splnena v nejakej realizacii.
+
+Formula je \emph{logicky platna}, ak je splnena v kazdej realizacii jazyka $L$ - $\models \varphi$
+
+Formula $\varphi, \psi$ su \emph{logicky ekvivalentne} ak v lubovolnej realizacii $\mathcal{M}$
+a pri lubovolnom ohodnoteni $e$ je $\mathcal{M} \models \varphi[e]$ prave vtedy ak
+$\mathcal{M} \models \psi[e]$.
+
+\subsection{Substitucia termov za premenne}
+Ak je $\varphi$ formula, $x$ je premenna a $t$ je term, potom vyraz ktory vznikne z formule
+$\varphi$ nahradenim kazdeho volneho vyskytu premennej $x$ termom $t$ je opat formula.
+
+Term $t$ je \emph{substituovatelny} za $x$ do formule $\varphi$, ak ziadny volny vyskyt premennej
+$x$ sa nenachadza v obore kvatifikacie nejakeho kvantifikatoru premennej $y$, kde $y$ je
+premenna obsiahnuta v terme $t$.
+
+Budeme znacit $\varphi_{x}[t]$ formulu, ktora vznikne z $\varphi$ nahradenim kazdeho volneho
+vyskytu $x$ termom $t$.
+
+Ak mame $\varphi, x, t$ a $t$ je substituovatelny za $x$ do $\varphi$, potom
+$(\forall x \varphi) \to \varphi_{x}[t]; \varphi_{x}[t] \to (\exists x \varphi)$ su logicky
+platne formule.
+
+\subsection{Formalny system predikatovej logiky}
+Zavedieme predikatovu logiku ako formalny axiomaticky system. Obmedzime sa len na logicke spojky
+$\neg, \to$ a kvantifikatoru $\forall$.
+
+\textbf{Schema vyrokovych axiomov}
+\begin{itemize}
+	\item $\varphi \to (\psi \to \varphi)$
+	\item $(\varphi \to (\psi \to \eta)) \to ((\varphi \to \psi) \to (\varphi \to \eta))$
+	\item $(\neg\psi \to \neg\varphi) \to (\varphi \to \psi)$
+\end{itemize}
+\textbf{Schema axiomu kvantifikatoru}
+\begin{itemize}
+	\item $(\forall x(\varphi \to \psi)) \to (\varphi \to (\forall x \psi))$
+		($x$ nema volny vyskyt v $\varphi$)
+\end{itemize}
+\textbf{Schema axiomu substitucie}
+$t$ je substituovatelny za $x$ do $\varphi$
+\begin{itemize}
+	\item $(\forall x \varphi) \to \varphi_{x}[t]$
+\end{itemize}
+\textbf{Schema axiomov rovnosti}
+\begin{itemize}
+	\item $x = x$
+	\item $(x_{1} = y_{1} \to (x_{2} = y_{2} \to ( ... (x_{n} = y_{n} \to
+		f(x_{1}, x_{2}, ..., x_{n}) = f(y_{1}, y_{2}, ..., y_{n}))...)))$
+	\item $(x_{1} = y_{1} \to (x_{2} = y_{2} \to ( ... (x_{n} = y_{n} \to
+		p(x_{1}, x_{2}, ..., x_{n}) \to p(y_{1}, y_{2}, ..., y_{n}))...)))$
+\end{itemize}
+\subsection{Odvodzovacie pravidla predikatovej logiky}
+\begin{itemize}
+	\item \textbf{Pravidlo odlucenia - modus ponens} - Z formuli $\varphi$,$\varphi \to \psi$
+		sa odvodi formula $\psi$
+	\item \textbf{Pravidlo zobecnenia - generalizacia} - Pre lubovolnu premennu $x$ sa z formule
+		$\varphi$ odvodi formula $(\forall x \varphi)$
+\end{itemize}
+
+\textbf{Dokaz} - lubovolna postupnost $\varphi_{1},...,\varphi_{n}$ formuli jazyka $L$ v ktorej
+pre kazdy index $i$ je formula $\varphi_{i}$ bud axiom predikatovej logiky alebo je ju mozne
+odvodit z niektorych predchadzajucich formuli pouzitim pravidla odlucenia alebo zobecnenia.
+
+Formula $\varphi$ je \emph{dokazatelna}, pokial existuje dokaz, ktoreho poslednou formulou je
+$\varphi$. Piseme $\vdash \varphi$.
+
+Bud $T$ mnozina formuli jazyka $L$. Formula $\varphi$ je \emph{dokazatelna z predpokladov T}, ak
+existuje dokaz z predpokladu $T$, teda postupnost formuli, ze jej poslednou formulou je $\varphi$
+a kazda predosla formula je bud axiom, alebo je to formula z $T$ alebo vznikla uzitim pravidla
+odlucenia alebo zobecnenia. Piseme $T \vdash \varphi$.
+
+Lubovolna formula jazyka $L$ dokazatelna v predikatovej logike 1. radu je logicky platnou tj.
+splnena v kazdej realizacii jazyka $L$.
+
+\textbf{Lemma} - Ak $\vdash \varphi \to \psi$ a $x$ nema volny vyskyt v $\varphi$, tak
+$\vdash \varphi \to (\forall x \psi)$
+
+\textbf{Lemma} - Ak $\vdash \varphi \to \psi$ a $x$ nema volny vyskyt v $\varphi$, tak
+$\vdash (\exists x \varphi) \to \psi$
+
+\textbf{Lemma} - Ak $\varphi$ je formula, $x$ je premenna a $t$ term substituovatelny za $x$
+do $\varphi$, tak $\vdash \varphi_{x}[t] \to (\exists x \varphi)$
+\end{document}
