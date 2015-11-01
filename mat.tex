@@ -261,4 +261,144 @@ $\vdash (\exists x \varphi) \to \psi$
 
 \textbf{Lemma} - Ak $\varphi$ je formula, $x$ je premenna a $t$ term substituovatelny za $x$
 do $\varphi$, tak $\vdash \varphi_{x}[t] \to (\exists x \varphi)$
+
+\textbf{Lemma} - Nech $\varphi'$ je instanciou formule ($\varphi'$ je teda v tvare
+$\varphi_{x_{1},...,x_{n}}[t_{1},...,t_{n}])$. Ak $\vdash \varphi$, tak aj $\vdash \varphi'$.
+
+Ak su $x_{1},...,x_{n}$ vsetky volne premenne vo formuli $\varphi$, potom formulu
+$\forall x_{1},...,x_{n} \varphi$ nazyvame \emph{uzaverom formule $\varphi$}.
+
+\textbf{Veta o uzavere} - Ak je $T$ mnozina formuli a $\varphi'$ uzaver formule $\varphi$,
+potom $T \vdash \varphi$ prave vtedy ked $T \vdash \varphi'$
+
+\textbf{Veta o dedukcii} - Nech $T$ je mnozina formuli jazyka $L$, nech $\varphi$ je uzavrena
+formula, $\psi$ je lubovolna formula jazyka $L$. Potom $T \vdash \varphi \to \psi$ prave vtedy
+ked $T \cup \varphi \vdash \psi$.
+
+\textbf{Veta o konstantach} - Nech $T$ je mnozina formuli jazyka $L$, nech $\varphi$ je formula.
+Nech $x_{1},...,x_{n}$ su premenne a nech $c_{1},...,c_{n}$ su nove konstanty, ktorych priradenim
+k $L$ vznikne jazyk $L'$. Potom $T \vdash \varphi_{x_{1},...,x_{n}}[c_{1},...,c_{n}]$, prave ked
+$T \vdash \varphi$.
+
+\textbf{Lemma} - Nech je jazyk $L$ s rovnostou
+\begin{align*}
+	\vdash x &= y \to y = x \\
+	\vdash x = y &\to (y = z \to x = z)
+\end{align*}
+
+\textbf{Lemma} - Ak je $f$ funkcny symbol s pocetnostou $n$, ak je $p$ predikatovy symbol
+s cetnostou $m$ jazyka $L$ a ak su $u,v,w,s_{1},...,s_{n},t_{1},...,t_{n}$ termy jazyka $L$.
+\begin{enumerate}
+	\item $\vdash u = u$
+	\item $\vdash u = v \to v = u$
+	\item $\vdash u = v \to (v = w \to u = w)$
+	\item $\vdash s_{1} = t_{1} \to (s_{2} = t_{2} \to ... (s_{n} = t_{n} \to
+		f(s_{1},...,s_{n}) = f(t_{1},...,t_{n}))...))$
+	\item $\vdash s_{1} = t_{1} \to (s_{2} = t_{2} \to ... (s_{n} = t_{n} \to
+		p(s_{1},...,s_{n}) \to p(t_{1},...,t_{n}))...))$
+\end{enumerate}
+
+\subsection{Prenexny tvar formuli}
+Formula $A$ je v prenexnom tvare, pokial ma tvar $Q_{1}x_{1}...Q_{n}x_{n}B$, kde
+\begin{enumerate}
+	\item $n \ge 0$ pre kazde $i = 1,...,n$ je $Q_{i}$ bud $\forall$ alebo $\exists$
+	\item $x_{1},...,x_{n}$ su navzajom rozne premenne
+	\item $B$ je otvorena formula (neobsahuje kvantifikatory)
+\end{enumerate}
+\textbf{Prevod formuli do prenexneho tvaru}
+\begin{enumerate}
+	\item \textbf{Vylucenie zbytocnych kvantifikatorov} - vynechame kvantifikatory $\forall x$ a
+		$\exists x$ v podformulach tvaru $\forall x B$ alebo $\exists x B$, pokial sa premenna
+		$x$ nevyskytuje volne v $B$
+	\item \textbf{Premenovanie premennych} - Postupujeme z lava do prava premenovavanim premennych
+		v podformuliach
+	\item \textbf{Eliminacia spojky $\leftrightarrow$} - Prevedieme pomocou
+		\begin{equation*}
+			A \leftrightarrow B ... (A \to B) \land (B \to A)
+		\end{equation*}
+	\item \textbf{Presun negacie dovnutra} - vykonavame postupne nahrady podformuli podla schemat
+		\begin{flalign*}
+			\neg(\forall x A) ... (\exists x \neg A) & \\
+			\neg(\exists x A) ... (\forall x \neg A) & \\
+			\neg(A \to B) ... (A \land \neg B) & \\
+			\neg(A \lor B) ... (\neg A \land \neg B) & \\
+			\neg(A \land B) ... (\neg A \lor \neg B) & \\
+			\neg(\neg A) ... A &
+		\end{flalign*}
+	\item \textbf{Presun kvantifikatov dolava} - pre podformulu $B$, v ktorej sa nevyskytuje
+		premenna $x$ vykonavame nahrady podla schemat
+		\begin{flalign*}
+			(QxA) \lor B ... Qx(A \lor B) & \\
+			(QxA) \land B ... Qx(A \land B) & \\
+			(QxA) \to B ... \bar{Q}x(A \to B) & \\
+			A \to (QxB) ... Qx(A \to B) &
+		\end{flalign*}
+\end{enumerate}
+\subsection{Veta o uplnosti}
+Ak je jazyk $L$ 1.radu a $T$ mnozina formuli jazyka $L$, hovorime, ze $T$ je
+	\emph{teoria 1. radu} s jazykom $L$.
+
+Hovorime ze teoria $T$ je \emph{sporna}, pokial pre kazdu formulu $\varphi$ jazyka $L$ plati
+	$T \vdash \varphi$. V opacnom pripade je \emph{bezesporna}.
+
+Nech $T$ je mnozina formuli a $\varphi'$ je uzaver formule $\varphi$. Potom $T \vdash \varphi$
+prave vtedy, ked $T \cup \{\neg\varphi'\}$ je sporna teoria.
+
+Bud $T$ teoria s jazykom $L$ a nech $\mathcal{M}$ je nejaka realizacia jazyka $L$.
+Hovorime ze $\mathcal{M}$ je \emph{model teorie T}, pokial $\mathcal{M} \models \varphi$
+pre kazdu formulu $\varphi \in T$. Potom piseme $\mathcal{M} \models T$.
+
+Formula $\varphi$ je \emph{dosledkom toerie T}, pokial pre kazdy model $\mathcal{M}$
+teorie $T$ je $\mathcal{M} \models \varphi$. Piseme $T \models \varphi$.
+
+\textbf{Veta o korektnosti} - Ak je $T$ teoria s jazykom $L$ a $\varphi$ formula, taka, ze
+$T \vdash \varphi$, potom $T \models \varphi$.
+
+\section{Algebraicke struktury}
+
+Bud $A$ mnozina $n \in \mathbb{N}_{0}$. Zobrazenie $\omega: A^{n} \to A$ sa nazyva
+\emph{n-arna operacia} na $A$.
+\begin{equation*}
+	\omega :
+	\begin{cases}
+		A^{n} \to A \\
+		(x_{1},...,x_{n}) \mapsto \omega x_{1},...,x_{n}
+	\end{cases}
+\end{equation*}
+Pre $n = 0$:
+\begin{equation*}
+	\omega :
+	\begin{cases}
+		A^{0} = \{\varnothing\} \to A \\
+		\varnothing \mapsto \omega \varnothing = \omega
+	\end{cases}
+\end{equation*}
+Binarne operacie ($n = 2$) znacime zvycajne nejakym symbolom $\circ$.
+\begin{equation*}
+	\circ :
+	\begin{cases}
+		A^{2} \to A \\
+		(x,y) \mapsto x \circ y
+	\end{cases}
+\end{equation*}
+Unarne operacie ($n = 1$)
+\begin{equation*}
+	\omega :
+	\begin{cases}
+		A \to A \\
+		x \mapsto \omega x
+	\end{cases}
+\end{equation*}
+
+Bud $A$ mnozina $n \in \mathbb{N}_{0}, D \subseteq A^{n}$. Potom zobrazenie
+$\omega: D \to A$ sa nazyva \emph{n-arna parcialna operacia} na $A$.
+
+Bud $A$ mnozina, $I$ mnozina indexov. Pre $i \in I$ bud $\omega_{i}$ $n_{i}$-arnou operaciou na A,
+$n_{i} \in \mathbb{N}_{0}$. Potom $\mathcal{A} := (A, (\omega_{i})_{i \in \{1,..,n\}})$ oznacuje
+\emph{algebru s nosnou mnozinou $A$ a suborom operacii $(\omega_{i})_{i \in I} =: \Omega$}.
+Casto byva $I$ konecna, potom piseme
+\begin{equation*}
+	(A,\Omega) = (A, (\omega_{i})_{i \in I}) =: (A, \omega_{1},...,\omega_{n})
+\end{equation*}
+
 \end{document}
