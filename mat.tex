@@ -391,7 +391,7 @@ Unarne operacie ($n = 1$)
 \end{equation*}
 
 Bud $A$ mnozina $n \in \mathbb{N}_{0}, D \subseteq A^{n}$. Potom zobrazenie
-$\omega: D \to A$ sa nazyva \emph{n-arna parcialna operacia} na $A$.
+$\omega: D \to A$ sa nazyva \emph{n-arna parcialna operacia} na $A$. ($-,/$ na $\mathbb{N}$)
 
 Bud $A$ mnozina, $I$ mnozina indexov. Pre $i \in I$ bud $\omega_{i}$ $n_{i}$-arnou operaciou na A,
 $n_{i} \in \mathbb{N}_{0}$. Potom $\mathcal{A} := (A, (\omega_{i})_{i \in \{1,..,n\}})$ oznacuje
@@ -400,5 +400,87 @@ Casto byva $I$ konecna, potom piseme
 \begin{equation*}
 	(A,\Omega) = (A, (\omega_{i})_{i \in I}) =: (A, \omega_{1},...,\omega_{n})
 \end{equation*}
+
+\textbf{Neutralny prvok} - bud $A$ mnozina, $\circ$ binarna operacia na $A$. Prvok $e \in A$ sa nazyva
+neutralny prvok vzhladom k $\circ: \Leftrightarrow \forall x \in A: e \circ x = x \circ e = x$ (moze byt
+aj lavy neutralny $e \circ x = x$, alebo aj pravy neutralny $x \circ e = x$)
+
+\textbf{Zakon} - Rovnice, ktore maju tvar $t_{1}(x,y,z,...) = t_{2}(x,y,z,...)$ s vhodnymi termami
+$t_{1}, t_{2}$ a musia byt splnene pre vsetky prvky uvazovanej algebry
+
+\textbf{Inverzny prvok} - bud $A$ mnozina, $\circ$ binarna operacia na $A$, $e$ neutralny prvok, $x \in A$. Potom
+nazyvame prvok $y \in A$ inverzny k prvku $x: \Leftrightarrow x \circ y = y \circ x = e$. (Moze byt aj lavy inverzny
+$y \circ x = e$, alebo aj pravy inverzny $x \circ y = e$.)
+
+\textbf{Asociativny zakon} - bud $A$ mnozina, $\circ$ binarna operacia na $A$, $\circ$ sa nazyva asociativna:
+$\Leftrightarrow \forall x,y,z \in A: (x \circ y) \circ z = x \circ (y \circ z)$. Pokial je operacia asociativna,
+existuje ku kazdemu prvku nanajvys 1 inverzny prvok.
+
+\textbf{Operacia s delenim} - binarna operacia $\circ$ sa nazyva operacia s delenim: $\Leftrightarrow
+\forall (a,b) \in A^{2} \exists (x,y) \in A^{2}: a \circ x = b \text{(lavy zakon o deleni)}
+\land y \circ a = b \text{(pravy zakon o deleni)}.$
+
+\textbf{Operacia s kratenim} - binarna operacia $\circ$ sa nazyva operacia s kratenim na $A$:
+$\Leftrightarrow \forall a,x_{1},x_{2},y_{1},y_{2} \in A: (a \circ x_{1} = a \circ x_{2} \Rightarrow x_{1} = x_{2}) \text{(lavy zakon o krateni)}
+\land (y_{1} \circ a = y_{2} \circ a \Rightarrow y_{1} = y_{2}) \text{(pravy zakon o krateni)}$
+
+\textbf{Komutativny zakon} - binarna operacia $\circ$ sa nazyva komutativna:
+$\Leftrightarrow \forall x,y \in A: x \circ y = y \circ x$
+
+\textbf{Distributivny zakon} - pokial su $+, \cdot$ binarne operacie na $A$, potom sa $\cdot$ nazyva
+distributivna nad $+: \Leftrightarrow \forall x,y,z \in A :
+x \cdot (y + z) = x \cdot y + x \cdot z \land (y + z) \cdot x = y \cdot x + z \cdot x$
+
+\subsection{Typy algebier}
+\begin{itemize}
+	\item \textbf{Grupoid} - algebra $(A, \cdot)$ typu (2)
+	\item \textbf{Pologrupa} - grupoid $(H, \cdot)$ a $\cdot$ je asociativna operacia
+	\item \textbf{Monoid} - pologrupa $(H, \cdot)$ a existuje neutralny prvok
+	\item \textbf{Grupa} - monoid $(G, \cdot)$ pokial pre kazdy prvok z $G$ existuje prvok inverzny
+	\item \textbf{Komutativna/abelovska grupa} - grupa $(G, \cdot)$ (resp. $(G, \cdot, e, \textsuperscript{-1}$)) kde pre $\cdot$ plati komutativny zakon
+	\item \textbf{Okruh} - algebra $(R,+,\cdot)$ (resp. $(R,+,0,-,\cdot)$) typu (2,2) (resp. (2,0,1,2)) pokial
+		\begin{itemize}
+			\item $(R, +)$ (resp. $(R,+,0,-)$) je abelovska grupa
+			\item $(R, \cdot)$ je pologrupa
+			\item $\cdot$ je distributivny nad $+$
+		\end{itemize}
+	\item \textbf{Okruh s jednotkovym prvkom} - algebra $(R,+,0,-,\cdot,1)$ typu (2,0,1,2,0) pokial
+		\begin{itemize}
+			\item $(R,+,0,-,\cdot)$ je okruh
+			\item 1 je neutralny prvok vzhladom k $\cdot$
+		\end{itemize}
+	\item \textbf{Komutativny okruh} - pre $\cdot$ plati komutativita
+	\item \textbf{Komutativny okruh s jednotkovym prvkom} - vyssie 2 dokopy
+	\item \textbf{Obor integrity} - komutativny okruh s jednotkovym prvkom $(R,+,0,-,\cdot,1)$ pokial
+		\begin{itemize}
+			\item $R \setminus \{0\} \not= \varnothing$ (teda $0 \not= 1$)
+			\item $\forall x,y \in R: x \not= 0 \land y \not= 0 \Rightarrow xy \not= 0$ (neexistuju delitele nuly)
+		\end{itemize}
+	\item \textbf{Teleso} - okruh s jednotkovym prvkom $(R,+,0,-,\cdot,1)$ pokial
+		\begin{itemize}
+			\item $0 \not= 1$
+			\item $(R \setminus \{0\}, \cdot)$ je grupa
+		\end{itemize}
+	\item \textbf{Pole} - komutativne teleso ($(R \setminus \{0\}, \cdot)$ musi byt abelovska grupa)
+	\item \textbf{Svaz} - algebra $(V,\cap,\cup)$ typu (2,2), ak $\forall a,b,c \in V$ plati
+		\begin{itemize}
+			\item $a \cap b = b \cap a, a \cup b = b \cup a$
+			\item $a \cap (b \cap c) = (a \cap b) \cap c, a \cup (b \cup c) = (a \cup b) \cup c$
+			\item $a \cap (a \cup b) = a, a \cup (a \cap b) = a$
+		\end{itemize}
+	\item \textbf{Distributivny svaz} - musi platit
+		\begin{equation*}
+			a \cap (b \cup c) = (a \cap b) \cup (a \cap c), a \cup (b \cap c) = (a \cup b) \cap (a \cup c)
+		\end{equation*}
+	\item \textbf{Ohraniceny svaz}
+		\begin{itemize}
+			\item \textbf{Nulovy prvok svazu} - $\forall a \in A: a \cup 0 = a$
+			\item \textbf{Jednotkovy prvok svazu} - $\forall a \in A: a \cap 1 = a$
+		\end{itemize}
+	\item \textbf{Komplementarny ohraniceny svaz} - $\forall a \in A: a \cap a' = 0 \land a \cup a' = 1$,
+		$a'$ sa nazyva komplement prvku $a$. Nazyva sa aj \textbf{Booleovsky svaz}.
+	\item \textbf{Booleova algebra} - ak je $(B,\cap,\cup,0,1)$ booleovsky svaz, tak $(B,\cap,\cup,0,1,')$ je booleova
+		algebra
+\end{itemize}
 
 \end{document}
