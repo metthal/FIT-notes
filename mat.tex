@@ -481,6 +481,78 @@ x \cdot (y + z) = x \cdot y + x \cdot z \land (y + z) \cdot x = y \cdot x + z \c
 		$a'$ sa nazyva komplement prvku $a$. Nazyva sa aj \textbf{Booleovsky svaz}.
 	\item \textbf{Booleova algebra} - ak je $(B,\cap,\cup,0,1)$ booleovsky svaz, tak $(B,\cap,\cup,0,1,')$ je booleova
 		algebra
+	\item \textbf{Vektorovy priestor} - bud $(K,+,0,-,\cdot,1)$ pole, $I = \{a,b,c\} \cup K$, kde $a,b,c \not\in K$,
+		, $a,b,c$ po dvoch rozne. Algebra $(V,(\omega_{i})_{i \in I})$ typu (2,0,1,$\text{(1)}_{\lambda \in K}$) sa nazyva
+		vektorovy priestor nad $K$, iff
+		\begin{itemize}
+			\item $(V,\omega_{a},\omega_{b},\omega_{c}) =: (V,+,0,-)$ je abelovska grupa
+			\item \begin{flalign*}
+					&\forall x,y \in V, \lambda,\mu \in K : & \\
+					&\omega_{\lambda}(x + y) = \omega_{\lambda}(x) + \omega_{\lambda}(y) & \\
+					&\omega_{\lambda + \mu}(x) = \omega_{\lambda}(x) + \omega_{\mu}(y) & \\
+					&\omega_{\lambda\mu}(x) = \omega_{\lambda}(\omega_{\mu}(x)) & \\
+					&\omega_{1}(x) = x &
+				\end{flalign*}
+		\end{itemize}
 \end{itemize}
+\subsection{Zakladne pojmy teorie grup}
+\textbf{Sucin} - Bud $(G,\cdot)$ grupoid, $a_{1},...,a_{n} \in G (n \in \mathbb{N})$. \emph{Sucin} $a_{1},...,a_{n}$
+je definovany indukciou vztahom $a_{1}...a_{n} := (a_{1}...a_{n-1})a_{n}$
+
+\textbf{Mocnina} - Bud $(G,\cdot)$ grupoid, mocnina prvku $a$ je definovana ako $a^{1} := a, a^{n+1} := (a^{n})a (n \in \mathbb{N})$
+
+Bud $(G,\cdot,e,\textsuperscript{-1})$ grupa, $a,b \in G$, potom plati $(ab)^{-1} = b^{-1}a^{-1}$
+
+Bud $(G,\cdot,e,\textsuperscript{-1})$ grupa, $a \in G$, potom plati $a^{0} = e$ a $a^{-n} = (a^{-1})^{n}$
+
+Pravidla pre pocitanie s mocninami v grupach
+\begin{align*}
+	a^{n}a^{m} &= a^{n + m} \\
+	(a^{n})^{m} &= a^{nm} \\
+	(ab)^{n} &= a^{n}b^{n} \text{pokial je } \cdot \text{ komutativna}
+\end{align*}
+
+\textbf{Rad prvku} - bud $(G,\cdot,e,\textsuperscript{-1})$ grupa, $a \in G$, potom kardinalne cislo
+	$o(a) = \vert\{a^{0} = e,a^{1},a^{-1},a^{2},a^{-2},...\}\vert = \vert \{a^{k} \pipesep k \in \mathbb{Z}\}\vert$
+	sa nazyva rad prvku $a$
+
+\textbf{Delenie so zvyskom} - $\forall k,l \in \mathbb{Z}, l \not= 0, \exists q,r \in \mathbb{Z}:
+0 \le r < \vert l \vert \land k = lq + r$
+
+\textbf{Symetricka grupa} - Bud $M$ mnozina a $S_{M} = \{ f : M \to M \pipesep f \text{bijektivne} \}$.
+$(S_{M}, \circ, id_{M}, \textsuperscript{-1})$ je grupa, ktora sa nazyva symetricka grupa na $M$.
+Prvky mnoziny $S_{M}$ sa nazyvaju permutacie mnoziny $M$. Ak $M = \{1,2,...,n\}$ tak piseme $S_{n}$. Napr
+\begin{equation*}
+	S_{3} = \begin{Bmatrix}
+	\begin{pmatrix}
+		1 & 2 & 3 \\
+		1 & 2 & 3
+	\end{pmatrix},
+	\begin{pmatrix}
+		1 & 2 & 3 \\
+		2 & 3 & 1
+	\end{pmatrix},
+	\begin{pmatrix}
+		1 & 2 & 3 \\
+		3 & 1 & 2
+	\end{pmatrix},
+	\begin{pmatrix}
+		1 & 2 & 3 \\
+		1 & 3 & 2
+	\end{pmatrix},
+	\begin{pmatrix}
+		1 & 2 & 3 \\
+		3 & 2 & 1
+	\end{pmatrix},
+	\begin{pmatrix}
+		1 & 2 & 3 \\
+		2 & 1 & 3
+	\end{pmatrix}
+	\end{Bmatrix}
+\end{equation*}
+Cyklicky zapis:
+\begin{equation*}
+	S_{3} = \{ (1), (123), (312), (23), (13), (12) \}
+\end{equation*}
 
 \end{document}
