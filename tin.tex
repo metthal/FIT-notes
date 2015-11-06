@@ -1,0 +1,206 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=1in]{geometry} 
+\usepackage{amsmath,amsthm,amssymb,amsfonts}
+\usepackage[utf8]{inputenc}
+\usepackage[slovak]{babel}
+\usepackage{tikz}
+
+\newcommand{\pipesep}{\hspace{3pt} \vert \hspace{3pt}}
+\setlength\parindent{0pt}
+
+\begin{document}
+
+\title{Poznamky z TINu}
+\author{Marek Milkovic}
+\date{}
+\maketitle
+
+\textbf{Regularne jazyky}
+TODO, doplnit zaciatok
+
+\subsection*{Eliminacia nedosiahnutelnych stavov}
+\textbf{Nedosiahnutelny stav} - Nech $M = (Q, \Sigma, \delta, q_{0}, F)$ je KA, stav $q \in Q$ nazveme
+dosiahnutelny, pokial $\exists w \in \Sigma^{*}: (q_{0}, w) \underset{M}{\vdash^{*}} (q, \varepsilon)$.
+Stav nazveme nedosiahnutelny, pokial nie je dosiahnutelny.
+
+\textbf{Algoritmus}
+\begin{flalign*}
+	&i := 1 & \\
+	&S_{1} = \{q_{0}\} & \\
+	&\texttt{repeat} & \\
+	&\hspace{1cm} S_{i+1} = S_{i} \cup \{p \pipesep \exists q \in S_{i} \exists a \in \Sigma : p = \delta(q,a)\} & \\
+	&\hspace{1cm} i := i + 1 & \\
+	&\texttt{until }S_{i-1} = S_{i} & \\
+	&M' = (S_{i}, \Sigma, \delta|S_{i}, q_{0}, S_{i} \cap F) &
+\end{flalign*}
+
+\subsection*{Jazykovo nerozlisitelne stavy}
+\textbf{Rozlisitelnost stavov} - Nech $M = (Q, \Sigma, \delta, q_{0}, F)$ je UDKA. Hovorime ze retazec $w \in \Sigma^{*}$ rozlisuje
+stavy $q_{1}, q_{2}$ pokial $(q_{1}, w) \vdash^{*} (q_{3}, \varepsilon) \land (q_{2}, w) \vdash^{*} (q_{4}, \varepsilon) \land
+((q_{3} \in F \land q_{4} \not\in F) \lor (q_{3} \not\in F \land q_{4} \in F))$.
+
+\textbf{k-nerozlisitelnost} - Hovorime ze stavy $q_{1}, q_{2} \in Q$ su k-nerozlisitelne a piseme
+$q_{1} \overset{k}{\equiv} q_{2}$, prave ked neexistuje $w \in \Sigma^{*}, |w| \le k$, ktory rozlisuje $q_{1}$ a $q_{2}$.
+
+\textbf{Formalna definicia k-nerozlisitelnosti} - Nech $M = (Q, \Sigma, \delta, q_{0}, F)$ je UDKA,
+$\forall q_{1},q_{2} \in Q: q_{1} \overset{k}{\equiv} q_{2} \overset{def}{\Leftrightarrow}
+(\forall w \in \Sigma^{*}: |w| \le k ((\exists q_{3}\in F: (q_{1},w) \vdash^{*} (q_{3}, \varepsilon)) \Leftrightarrow
+(\exists q_{4} \in F: (q_{2},w) \vdash^{*} (q_{4}, \varepsilon))))$
+
+\textbf{Nerozlisitelnost} - Stavy $q_{1}, q_{2}$ su nerozlisitelne, znacime $q_{1} \equiv q_{2}$, pokial su
+k-nerozlisitelne pre $k \ge 0$
+
+\textbf{Redukovany DKA} - UDKA nazyva redukovany, pokial neobsahuje nedosiahnutelne stavy a ziadne
+dva stavy su nerozlisitelne
+\emph{Dokaz} pre $|Q| = n, n \le 2$ a plati $\forall q_{1},q_{2}: q_{1} \equiv q_{2} \Leftrightarrow q_{1} \overset{k}{\equiv} q_{2}$.
+Dokaz pre $"\Rightarrow"$ je trivialny a vyplyva z definicie vseobecnej $\equiv$. Dokaz pre $"\Leftarrow"$.
+\begin{enumerate}
+	\item Ak $|F| = 0$ alebo $|F| = n$ tak ziadne 2 stavy nemozu byt rozlisitelne. Takze plati.
+	\item Ak $0 < |F| < n$ tak ukazeme ze plati $\equiv = \overset{n-2}{\equiv} \subseteq \overset{n-1}{\equiv}
+		\subseteq ... \subseteq \overset{1}{\equiv} \subseteq \overset{0}{\equiv}$:
+		\begin{itemize}
+			\item Plati ze $\forall q_{1}, q_{2} \in Q: q_{1} \overset{0}{\equiv} q_{2} \Leftrightarrow
+				(q_{1} \in F \land q_{2} \not\in F) \lor (q_{1} \not\in F \land q_{2} \in F)$
+			\item Taktiez plat ize $\forall q_{1}, q_{2} \in Q \forall k \ge 1: q_{1} \overset{k}{\equiv} q_{2} \Leftrightarrow
+				(q_{1} \overset{k-1}{\equiv} q_{2}) \land (\forall a \in \Sigma: \delta(q_{1}, a) \overset{k-1}{\equiv} \delta(q_{2}, a))$
+			\item $\overset{0}{\equiv}$ je ekvivalenciou urcujucou rozklad $\{F, Q\setminus F\}$
+			\item Pokial $q_{1} \overset{k+1}{\equiv} q_{2} = q_{1} \overset{k}{\equiv} q_{2}$ tak z definicie $\equiv$ plynie, ze
+				aj $\overset{k}{\equiv} = \overset{k+1}{\equiv} = \overset{k+2}{\equiv} ... = \equiv$
+			\item Ekvivalencia $\overset{k+1}{\equiv}$ teda vytvara zjemnenie rozkladu na ekvivalencii $\overset{k}{\equiv}$
+			\item Hladana ekvivalencia je tym padom $\overset{k}{\equiv}$
+			\item Pretoze $F$ obsahuje najviac $n - 1$ prvkov, tak dokazeme vykonat najviac $n - 2$ zjemneni $\overset{0}{\equiv}$
+		\end{itemize}
+\end{enumerate}
+
+\textbf{Algoritmus}
+\begin{flalign*}
+	&i := 0 & \\
+	&\overset{0}{\equiv} = \{(p,q) \pipesep p \in F \Leftrightarrow q \in F\} & \\
+	&\texttt{repeat} & \\
+	&\hspace{1cm} \overset{i+1}{\equiv} = \{(p,q) \pipesep p \overset{i}{\equiv} q
+		\land \forall a \in \Sigma : \delta(p,a) \overset{i}{\equiv} \delta(q,a)\} & \\
+	&\hspace{1cm} i := i + 1 & \\
+	&\texttt{until }\overset{i}{\equiv} \not= \overset{i-1}{\equiv} & \\
+	&Q' = Q / \overset{i}{\equiv} & \\
+	&\forall p,q \in Q \forall a \in \Sigma: \delta'([p],a) = [q] \Leftrightarrow \delta(p,a) = q & \\
+	&q_{0}' = [q_{0}] & \\
+	&F' = \{[q] \pipesep q \in F\} &
+\end{flalign*}
+
+\subsection*{Regularne mnoziny}
+Nech $\Sigma$ je konecna abeceda. Regularnu mnozinu nad $\Sigma$ definujeme rekurzivne takto:
+\begin{itemize}
+	\item $\varnothing$ je regularna mnozina nad $\Sigma$
+	\item $\{\varepsilon\}$ je regularna mnozina nad $\Sigma$
+	\item $\{a\}$ je regularna mnozina nad $\Sigma$ pre vsetky $a \in \Sigma$
+	\item Ak su $P$ a $Q$ regularne mnoziny nad $\Sigma$, potom tiez
+		\begin{itemize}
+			\item $P \cup Q$
+			\item $P.Q$
+			\item $P^{*}$
+		\end{itemize}
+		su taktiez regularne mnoziny nad $\Sigma$
+	\item Ziadne ine mnoziny, nez tie ktore je mozne ziskat podla nasledujucich pravidiel, nie su regularne mnoziny
+\end{itemize}
+
+\subsection*{Regularne vyrazy}
+Regularne vyrazy a regularne mnoziny, ktore oznacuju su definovane nasledovne:
+\begin{itemize}
+	\item $\varnothing$ je regularny vyraz oznacujuci regularnu mnozinu $\varnothing$
+	\item $\varepsilon$ je regularny vyraz oznacujuci regularnu mnozinu $\{\varepsilon\}$
+	\item $a$ je regularny vyraz oznacujuci regularnu mnozinu $\{a\}$ pre vsetky $a \in \Sigma$
+	\item Ak su $p,q$ regularne vyrazy oznacujuce regularne mnoziny $P,Q$, potom
+		\begin{itemize}
+			\item $(p + q)$ je regularny vyraz oznacujuci regularnu mnozinu $P \cup Q$
+			\item $(p.q)$ je regularny vyraz oznacujuci regularnu mnozinu $P.Q$
+			\item $(p^{*})$ je regularny vyraz oznacujuci regularnu mnozinu $P^{*}$
+		\end{itemize}
+	\item Ziadne ine regularne vyrazy nad $\Sigma$ neexistuju
+\end{itemize}
+
+\subsection*{Kleeneho algebra}
+Kleeneho algebra pozostava z jednej mnoziny, dvoch binarnych operacii $+, \cdot$, unarnej operacie $*$ a
+dvoch konstant $0$ a $1$. Operacie splnuju vela roznych axiomov, ktore si sem pisat urcite nebudem. :)
+
+Usporiadanie $\le$ definovane ako $a \le b \overset{def}{\Leftrightarrow} a + b = b$
+
+\subsection*{Rovnice nad regularnymi vyrazmi}
+Rovnice, ktorej zlozkami su koeficienty a nezname, ktore reprezentuju regularne vyrazy.
+\textbf{Najmensi pevny bod} - Rovnica nad regularnymi vyrazmi nad abecedou $\{a,b\}$ $X = aX + b$ ma riesenie
+$X = a^{*}b$. Je to tzv. najmensie riesenie, alebo aj najmensi pevny bod.
+
+\subsection*{Regularne mnoziny a jazyky typu 3}
+Jazyk $L$ je regularna mnozina prave ked je jazyk $L$ jazyk typu 3.
+\begin{equation*}
+	\mathcal{L}_{R} = \mathcal{L}_{3}
+\end{equation*}
+
+\emph{Dokaz} - kazdu regularnu mnozinu je mozne generovat gramatikou typu 3. Najprv $\mathcal{L}_{R} \subseteq \mathcal{L}_{3}$
+\begin{itemize}
+	\item $\varnothing - (\{S\},\Sigma,\varnothing,S)$
+	\item $\varepsilon - (\{S\},\Sigma,\{S \to \varepsilon\},S)$
+	\item $\{a\}\text{ pre kazde }a \in \Sigma - (\{S\},\Sigma,\{S \to a\},S)$
+	\item Majme 2 gramatiky $G_{1} = (S_{1}, \Sigma_{1}, P_{1}, S_{1})$ a $G_{1} = (S_{1}, \Sigma_{1}, P_{1}, S_{1})$
+	\item $L(G_{1}) \cup L(G_{2}) - G_{3} = (S_{3} \cup N_{1} \cup N_{2}, \Sigma_{1} \cup \Sigma_{2}, \{S_{3} \to S_{1} | S_{2}\} \cup P_{1} \cup P_{2}, S_{3})$
+	\item $L(G_{1}).L(G_{2}) - G_{4} = (N_{1} \cup N_{2}, \Sigma_{1} \cup \Sigma_{2}, P_{4}, S_{1})$
+		\begin{itemize}
+			\item Ak $A \to xB \in P_{1}$ tak $A \to xB \in P_{4}$
+			\item Ak $A \to x \in P_{1}$ tak $A \to xS_{2} \in P_{4}$
+			\item Ak $A \to \alpha \in P_{2}$ tak $A \to \alpha \in P_{4}$
+		\end{itemize}
+	\item $L(G_{1})^{*} - G_{5} = (\{S_{5}\} \cup N_{1}, \Sigma_{1}, P_{5}, S_{5})$
+		\begin{itemize}
+			\item $S_{5} \to S_{1}|\varepsilon \in P_{5}$
+			\item Ak $A \to xB \in P_{1}$ tak $A \to xB \in P_{5}$
+			\item Ak $A \to x \in P_{1}$ tak $A \to xS_{5} \in P_{5}$
+		\end{itemize}
+\end{itemize}
+
+\emph{Dokaz} - $\mathcal{L}_{3} \subseteq \mathcal{L}_{R}$ - kazdy jazyk generovany gramatikou typu 3 je regularnou mnozinou.
+Ak mame jazyk typu 3, tak prenho mozme zostavit ekvivalentny konecny automat. Z tohto automatu mozeme zostavit sustavu rovnic
+nad regularnymi vyrazmi a dostavame regularne vyrazy oznacujuce regularne mnoziny.
+
+\subsection*{Rozsirene konecne automaty}
+RKA je patica $M = (Q, \Sigma, \delta, s, F)$
+\begin{itemize}
+	\item $Q$ - konecna mnozina stavov
+	\item $\Sigma$ - konecna vstupna abeceda
+	\item $\delta$ - prechodova funkcia $\delta: Q \times (\Sigma \cup \{\varepsilon\}) \to 2^{Q}$
+	\item $s$ - pociatocny stav, $s \in Q$
+	\item $F$ - mnozina koncovych stavov, $F \subseteq Q$
+\end{itemize}
+
+\subsection*{$\varepsilon$-uzaver}
+\begin{equation*}
+	\varepsilon\text{-uzaver}(q) = \{r \in Q \pipesep \exists w \in \Sigma^{*}: (q,w) \vdash^{*} (r,w)\}
+\end{equation*}
+\begin{equation*}
+	\varepsilon\text{-uzaver}(T) = \underset{s \in T}{\bigcup}\varepsilon\text{-uzaver}(s)
+\end{equation*}
+Zavedieme relaciu $\overset{\varepsilon}{\to}$
+\begin{equation*}
+	\forall q_{1}, q_{2} \in Q: q_{1} \overset{\varepsilon}{\to} q_{2} \overset{def}{\Leftrightarrow} q_{2} \in \delta(q_{1}, \varepsilon)
+\end{equation*}
+Potom mozeme alternativne zapisat
+\begin{equation*}
+	\varepsilon\text{-uzaver}(q) = \{r \in Q \pipesep q \overset{\varepsilon}{\to}^{*} r\}
+\end{equation*}
+
+\subsection*{Prevod RKA na DKA}
+\begin{flalign*}
+	&Q' = 2^{Q} \setminus \{\varnothing\} & \\
+	&q_{0}' = \varepsilon\text{-uzaver}(q_{0}) & \\
+	&\delta': Q' \times \Sigma \to Q' & \\
+	&\hspace{1cm} \forall T \in Q' \forall a \in \Sigma: \bar{\delta}(T,a) = \underset{q \in T}{\bigcup}\delta(q,a) & \\
+	&\hspace{1cm} \text{Ak }\bar{\delta}(T,a) \not= \varnothing\text{ tak }\delta'(T,a) = \varepsilon\text{-uzaver}(\bar{\delta}(T,a)) & \\
+	&F' = \{T \pipesep T \in Q' \land T \cap F \not= \varnothing\} &
+\end{flalign*}
+
+\subsection*{Prevod RV na RKA}
+\begin{enumerate}
+	\item Rozlozit regularny vyraz na primitivne zlozky
+	\item Zacneme zostrojovat KA pre jednotlive zlozky, nebudem to tu rozpisovat, je mozne to najst v slidoch, ale aj tak to kazdy pozna
+\end{enumerate}
+
+\end{document}
