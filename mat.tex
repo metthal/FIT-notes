@@ -554,5 +554,91 @@ Cyklicky zapis:
 \begin{equation*}
 	S_{3} = \{ (1), (123), (312), (23), (13), (12) \}
 \end{equation*}
+\subsection{Podalgebry}
+\textbf{Uzavrena mnozina} - Bud $A$ mnozina, $\omega: A^{n} \to A$ $n$-arna operacia na $A$ a $T \subseteq A$.
+$T$ sa nazyva uzavrena vzhladom k $\omega \Leftrightarrow \omega(T^{n}) \subseteq T$
+(tj $t_{1}...t_{n} \in T \Rightarrow \omega t_{1}...t_{n} \in T$)
+
+\textbf{Podalgebra} - Bud $\mathcal{A} = (A,(\omega_{i})_{i \in I})$ algebra typu $(n_{i})_{i \in I})$, $T \subseteq A$.
+Mnozina $T$ je uzavrena vzhladom k $(\omega_{i})_{i \in I}$, iff je uzavrena voci $\omega_{i}$ pre kazde $i \in I$.
+Definujeme $\omega^{*}_{i}x_{1}...x_{n} = \omega_{i}x_{1}...x_{n}, (x_{1},...,x_{n}) \in T^{n}$ a mozme zapisat
+$\omega^{*}_{i} = \omega_{i} \vert T^{n_{i}}$ (zuzenie operacie $\omega_{i}$ na $T^{n_{i}}$).
+Algebra $(T,(\omega^{*}_{i})_{i \in I})$ je potom podalgebra algebry $\mathcal{A}$.
+
+\textbf{Podpologrupa} - Bud $(H,\cdot)$ pologrupa a $T \subseteq H$. Ak je mnozina $T$ uzavrena voci $\cdot$,
+tak zavedieme $\cdot = \cdot|T\times T$ a $(T,\cdot)$ je podpologrupa grupy $(H,\cdot)$.
+
+\textbf{Subor podalgebier} - Bud $(A, \Omega)$ algebra a $(T_{j})_{j \in J}$ subor podalgebier. Potom je
+$\bigcap_{j \in J} T_{j}$ je tiez podalgebra.
+
+\textbf{Najmensia podalgebra algebry} - Bud $(A, \Omega)$ algebra a $S \subseteq A$. Potom je
+\begin{equation*}
+	\langle S \rangle = \bigcap\{T \pipesep S \subseteq T, T\text{ je podalgebra algebry }(A, \Omega)\}
+\end{equation*}
+najmensia podalgebra algebry, ktora $S$ obsahuje. $\langle S \rangle$ sa nazyva \textbf{podalgebra generovana mnozinou}
+$S$. $S$ sa nazyva \textbf{system generatorov} podalgebry $\langle S \rangle$.
+
+\textbf{Cyklicka grupa} - Grupa $(G,\cdot,e,\textsuperscript{-1})$ je cyklicka $\Leftrightarrow \exists x \in G: G = \langle x \rangle$.
+Prvok $x$ sa nazyva generator.
+
+\subsection{Relacia ekvivalencie a rozklad na triedy ekvivalencie}
+\textbf{Binarna relacia} - Ak je $M$ mnozina, potom sa podmnozina $R$ mnoziny $M \times M$ nazyva
+binarna relacia na $M$. Piseme $(x,y) \in R$ alebo $xRy$. Univerzalna relacia je pripad kedy
+$R = M \times M$. Identicka relacia je relacia $R = \{(x,x) \pipesep x \in M\}$.
+
+Relacia $R \subseteq M \times M$ sa nazyva
+\begin{itemize}
+	\item \textbf{reflexivna} - $\forall x \in M: (x,x) \in R$
+	\item \textbf{symetricka} - $\forall x,y \in M: (x,y) \in R \Rightarrow (y,x) \in R$
+	\item \textbf{antisymetricka} - $\forall x,y \in M: ((x,y) \in R) \land ((y,x) \in R) \Rightarrow x = y$
+	\item \textbf{tranzitivna} - $\forall x,y,z \in M: ((x,y) \in R) \land (y,z) \in R)) \Rightarrow (x,z) \in R$
+\end{itemize}
+
+\textbf{Ekvivalencia} - relacia reflexivna, symetricka, tranzitivna
+
+\textbf{Usporiadanie} - relacia reflexivna, antisymetricka, tranzitivna
+
+\textbf{Rozklad mnoziny} - Bud $M$ mnozina, $\mathcal{P} \subseteq 2^{M}$ sa nazyva rozklad mnoziny ak
+\begin{itemize}
+	\item $\bigcup_{C \in \mathcal{P}} C = M$
+	\item $\varnothing \not\in \mathcal{P}$
+	\item $A,B \in \mathcal{P} \Rightarrow (A = B) \lor (A \cap B = \varnothing)$
+\end{itemize}
+
+\textbf{Faktorova mnozina} - Bud $\pi$ relacia ekvivalencie na mnozine $M$, $a \in M, [a]_{\pi} = \{b \in M \pipesep b\pi a\}$
+tzv. trieda ekvivalencie prvku $a$. $M/\pi = \{[a]_{\pi} \pipesep a \in M\}$ tzv. faktorova mnozina mnoziny $M$ podla ekvivalencie
+$\pi$. Potom $M/\pi$ je rozklad mnoziny $M$ na triedy ekvivalencie.
+
+\newpage
+Nech su $M,N$ mnoziny a $f: M \to N$. Nech je $\pi_{f}$ relacia na $M$ taka, ze
+$x\pi_{f}y \Leftrightarrow f(x) = f(y)$. Potom plati, ze
+\begin{itemize}
+	\item $\pi_{f}$ je relacia ekvivalencie na $M$, ktora sa nazyva $jadro f$
+	\item Zobrazenie $M/\pi_{f} \to f(M) \subseteq N$ je definovane a bijektivne
+\end{itemize}
+Zobrazenie $\nu: M \to M/\pi_{f}$ sa nazyva \emph{faktorove} zobrazenie
+
+\vspace{0.5cm}
+
+Bud $(G,\cdot,e,\textsuperscript{-1})$ grupa a $(H,\cdot,e,\textsuperscript{-1})$ podgrupa.
+Nech $\pi \subseteq G \times G$, pricom $x\pi y \Leftrightarrow x^{-1}y \in H$ kde $x,y \in G$.
+Relacia $\pi$ je potom relacia ekvivalencie na $G$.
+
+Bud $(G,\cdot,e,\textsuperscript{-1})$ grupa, $A,B \subseteq G$. $AB = \{ab \pipesep a \in A \land b \in B\}$
+sa nazyva \textbf{zlozeny sucin}. Specialne pripady $A = \{a\}: AB = aB = \{ab \pipesep b \in B\}$ (a analogicky
+pre $B = \{b\}$). Pre podgrupu $H$ grupy $G$ sa nazyva $aH$ \textbf{lava trieda rozkladu grupy} $G$ podla $H$ a
+$Ha$ \textbf{prava trieda rozkladu grupy} $G$ podla $H$.
+
+\textbf{Rozklad grupy} - $\{aH \pipesep a \in G\}$ - \textbf{lavy rozklad grupy} a analogicky pravy rozklad grupy
+
+\subsection{Izomorfizmy a homomorfizmy}
+TODO
+\subsection{Relacia kongruencie a faktorove algebry}
+\textbf{Relacia kongruencie} - Bud $\mathcal{A} = (A, (\omega_{i})_{i \in I})$ algebra typu $(n_{i})_{i \in I}$
+a $\pi$ relacia ekvivalencie na $A$. $\pi$ sa nazyva relacia kongruencie $\Leftrightarrow$ pre vsetky $i \in I$
+,kde $n_{i} > 0 a_{1},...,a_{n_{i}},b_{1},...,b_{n_{i}} \in A$ plati
+\begin{equation*}
+	a_{1}\pi b_{1} \land ... \land a_{n_{i}}\pi b_{n_{i}} \Rightarrow \omega_{i}a_{1}...a_{n_{i}}\pi \omega_{i}b_{i}...b_{n_{i}}
+\end{equation*}
 
 \end{document}
