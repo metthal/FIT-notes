@@ -16,8 +16,188 @@
 \date{}
 \maketitle
 
-\textbf{Regularne jazyky}
-TODO, doplnit zaciatok
+\section{Formalne jazyky}
+Nebudem tu vysvetlovat co je abeceda, retazec, konkatenacia atd. To su trivialne pojmy, ktore musi kazdy vediet.
+
+Algebra jazykov $<2^{\Sigma^{*}}, \cup, \cdot, \varnothing, \{\varepsilon\}>$ tvori polookruh (ako okruh, len nemusi sa splnit
+podmienka inverznych prvkov)
+\begin{itemize}
+	\item $<2^{\Sigma^{*}}, \cup, \varnothing>$ je komutativny monoid
+	\item $<2^{\Sigma^{*}}, \cdot, \{\varepsilon\}>$ je monoid
+\end{itemize}
+
+\subsection*{Gramatiky}
+Gramatika je stvorica $(N, \Sigma, P, S)$
+\begin{itemize}
+	\item $N$ - konecna mnozina neterminalnych symbolov
+	\item $\Sigma$ - konecna mnozina terminalnych symbolov
+	\item $P$ - konecna mnozina prepisovancich pravidiel v tvare $(N \cup \Sigma)^{*}N(N \cup \Sigma)^{*} \times (N \cup \Sigma)^{*}$
+	\item $S$ - startovaci neterminal, $S \in N$
+\end{itemize}
+
+Prepisovacie pravidla $(\alpha, \beta) \in P$ zapisujeme $\alpha \to \beta$
+
+\textbf{Priama derivacia} - nech $G = (N, \Sigma, P, S)$ a nech $\lambda, \nu \in (N \cup \Sigma)^{*}$.
+$\lambda,\nu$ mozeme zapisat v tvare $\lambda = \gamma\alpha\delta, \nu = \gamma\beta\delta$. Ak $\alpha \to \beta \in P$,
+tak hovorime ze $\lambda$ priamo derivuje $\nu$ a zapisujeme $\lambda \Rightarrow \nu$.
+
+\textbf{Vetna forma} - nech $G = (N, \Sigma, P, S)$ a $\alpha \in (N \cup \Sigma)^{*}$. Ak $S \Rightarrow^{*} \alpha$,
+tak $\alpha$ sa nazyva vetna forma. Vetou sa rozumie $\alpha \in \Sigma^{*}$.
+
+\subsection{Chomskeho hierarchia}
+\begin{itemize}
+	\item \textbf{Gramatiky typu 0}
+		\begin{itemize}
+			\item $\alpha \to \beta$
+			\item $\alpha \in (N \cup \Sigma)^{*}N(N \cup \Sigma)^{*}$
+			\item $\beta \in (N \cup \Sigma)^{*}$
+		\end{itemize}
+	\item \textbf{Gramatiky typu 1}
+		\begin{itemize}
+			\item $\alpha A\beta \to \alpha\gamma\beta$
+			\item $\alpha,\beta \in (N \cup \Sigma)^{*}$
+			\item $\gamma \in (N \cup \Sigma)^{+}$
+			\item $A \in N$
+		\end{itemize}
+	\item \textbf{Gramatiky typu 2}
+		\begin{itemize}
+			\item $A \to \alpha$
+			\item $A \in N$
+			\item $\alpha \in (N \cup \Sigma)^{*}$
+		\end{itemize}
+	\item \textbf{Gramatiky typu 3}
+		\begin{itemize}
+			\item $A \to xB$ alebo $A \to x$
+			\item $A,B \in N$
+			\item $x \in \Sigma^{*}$
+		\end{itemize}
+\end{itemize}
+
+\section{Regularne jazyky}
+\subsection*{Konecny automat}
+Patica $(Q,\Sigma,\delta,q_{0},F)$
+\begin{itemize}
+	\item $Q$ - konecna mnozina stavov
+	\item $\Sigma$ - konecna vstupna abeceda
+	\item $\delta$ - prechodova funkcia $Q \times \Sigma \to 2^{Q}$
+	\item $q_{0}$ - pociatocny stav $q_{0} \in Q$
+	\item $F$ - mnozina koncovych stavov $F \subseteq Q$
+\end{itemize}
+
+Deterministicky KA v pripade ze $\forall q \in Q \forall a \in \Sigma: |\delta(q,a)| \le 1$. Potom
+mozeme DKA definovat tak, ze prechodova funkcia bude zobrazenie $Q \times \Sigma \to Q$. AK je $\delta$
+definovana pre kazde $q$, tak automat nazyvame uplne definovany DKA.
+
+\textbf{Konfiguracia automatu} - majme KA $M = (Q,\Sigma,\delta,q_{0},F)$. Konfiguraciou automatu
+nazyvame dvojicu $(q, w) \in Q \times \Sigma^{*}$.
+
+\textbf{Prechod automatu} - relacia prechodu $\vdash \subseteq (Q \times \Sigma^{*}) \times (Q \times \Sigma^{*})$,
+ktora je definovana nasledovne
+\begin{equation*}
+	\forall q_{1}, q_{2} \in Q \forall w_{1},w_{2} \in \Sigma^{*}:
+	(q_{1}, w_{1}) \vdash (q_{2}, w_{2}) \overset{def}{\Leftrightarrow} \exists a \in \Sigma: w_{1} = aw_{2} \land q_{2} \in \delta(q_{1}, a)
+\end{equation*}
+
+\textbf{Jazyk prijmany automatom} - $L(M) = \{w \in \Sigma^{*} \pipesep (q_{0}, w) \vdash^{*} (q_{F}, \varepsilon) \land q_{F} \in F\}$
+
+\subsection*{Prevod NKA na ekvivalentny DKA}
+\begin{itemize}
+	\item Vstup NKA $M = (Q,\Sigma,\delta,q_{0},F)$
+	\item Vystup DKA $M' = (Q',\Sigma,\delta',q'_{0},F')$
+	\begin{itemize}
+		\item $Q' = 2^{Q} \setminus \{\varnothing\}$
+		\item $\forall T \in 2^{Q} \setminus \{\varnothing\} \forall a \in \Sigma: \delta'(T,a) = \underset{q \in T}{\bigcup}\delta(q,a)$ ale pre $\varnothing$ nedefinovana
+		\item $q'_{0} = \{q_{0}\}$
+		\item $F' = \{T \in 2^{Q} \setminus \{\varnothing\} \pipesep T \cap F \not= \varnothing\}$
+	\end{itemize}
+\end{itemize}
+
+\subsection*{Konecne automaty a jazyky typu 3}
+Gramatika $G = (N,\Sigma,P,S)$ s pravidlami v tvare $A \to xB|x$ resp. $A \to Bx|x$, kde $A,B \in N$
+a $x \in \Sigma^{*}$ sa nazyva \textbf{prava linearna} resp. \textbf{lava linearna}.
+
+Gramatika $G = (N,\Sigma,P,S)$ s pravidlami v tvare $A \to aB|a$ resp. $A \to Ba|a$, kde $A,B \in N$
+a $a \in \Sigma$ sa nazyva \textbf{prava regularna} resp. \textbf{lava regularna}.
+
+Gramatika $G = (N,\Sigma,P,S)$ s pravidlami v tvare $A \to xBy$ kde $x,y \in \Sigma^{*}$ a $A,B \in N$
+sa nazyva \textbf{linearna gramatika}.
+
+Kazda gramatika $G = (N,\Sigma,P,S)$ moze byt prevedna na gramatiku taku, ze jej pravidla su v tvare
+$A \to aB$ a $A \to \varepsilon$, kde $A,B \in N$ a $a \in \Sigma$.
+
+\emph{Dokaz} Zostavme gramatiku $G' = (N',\Sigma,P',S')$
+\begin{itemize}
+	\item Pravidla v tvare $A \to aB$ a $A \to \varepsilon$ len prekopirujeme
+	\item Pre pravidla v tvare $A \to a_{1}a_{2}...a_{n}B, n \ge 2$ vytvorime pravidla
+		\begin{itemize}
+			\item $A \to a_{1}A_{1}$
+			\item $A_{1} \to a_{2}A_{2}$
+			\item ...
+			\item $A_{n-1} \to a_{n}B$
+		\end{itemize}
+	\item Pre pravidla v tvare $A \to a_{1}a_{2}...a_{n}, n \ge 1$ vytvorime pravidla
+		\begin{itemize}
+			\item $A \to a_{1}A_{1}$
+			\item $A_{1} \to a_{2}A_{2}$
+			\item ...
+			\item $A_{n-1} \to a_{n}A_{n}$
+			\item $A_{n} \to \varepsilon$
+		\end{itemize}
+	\item Eliminujeme jednoduche pravidla $A \to B$
+\end{itemize}
+
+\subsection*{Prevod gramatiky typu 3 na NKA}
+Nech $\mathcal{L}_{M}$ je mnozina vsetkych jazykov prijmanych konecnymi automatmi a nech $L$ je lubovolny
+jazyk typu 3 ($L \in \mathcal{L}_{3}$). Potom existuje konecny automat $M$ taky, ze
+\begin{equation*}
+	L = L(M),\text{ tj. }\mathcal{L}_{3} \subseteq \mathcal{L}_{M}
+\end{equation*}
+\emph{Dokaz}
+\begin{itemize}
+	\item Mozeme predpokladat ze $L = L(G)$ pre gramatiku $G$, ktora ma pravidla len v tvare $A \to aB|\varepsilon$.
+	\item Zostrojime automat $M = (Q,\Sigma,\delta,q_{0},F)$
+		\begin{itemize}
+			\item $Q = N$
+			\item $\forall A,B \in N \forall a \in \Sigma: \delta(A,a) \in B \Leftrightarrow A \to aB \in P$
+			\item $q_{0} = S$
+			\item $F = \{ A \in N \pipesep A \to \varepsilon \in P\}$
+		\end{itemize}
+	\item Matematickou indukciou dokazeme, ze $L(G) = L(M)$
+		\begin{equation*}
+			\forall A \in N: A \Rightarrow^{i+1} w \Leftrightarrow (A, w) \vdash^{i} (C, \varepsilon), C \in F, w \in \Sigma^{*}
+		\end{equation*}
+	Pre $i = 0$ plati
+		\begin{equation*}
+			A \Rightarrow \varepsilon \Leftrightarrow (A, \varepsilon) \vdash^{0} (A, \varepsilon), A \in F
+		\end{equation*}
+	co urcite plati. Teraz predpokladajme, ze mame retazec dlzky $i > 0$, ktory nazveme $w$ a majme lubovolny symbol
+	$a \in \Sigma$. Zapiseme indukcny predpoklad
+		\begin{equation*}
+			B \Rightarrow^{i+1} w \Leftrightarrow (B, w) \vdash^{i} (C, \varepsilon), C \in F
+		\end{equation*}
+	Nech je teraz prijmany retazec $aw$. Zapiseme
+		\begin{equation*}
+			A \Rightarrow aB \Rightarrow^{i+1} aw \Leftrightarrow (A,aw) \vdash (B, w) \vdash^{i} (C, \varepsilon), C \in F
+		\end{equation*}
+	Z definicie priamej derivacie a prechodu automatu ale vyplyva, ze mozme zapisat
+		\begin{equation*}
+			A \Rightarrow^{i+2} aw \Leftrightarrow (A,aw) \vdash^{i+1} (C, \varepsilon), C \in F
+		\end{equation*}
+	Tvrdenie teda plati aj pre $i + 1$. $L(G) = L(M)$.
+\end{itemize}
+
+\subsection*{Prevod NKA na gramatiku typu 3}
+Nech $L = L(M)$ pre nejaky konecny automat M. Potom existuje gramatika $G$ typu 3 taku, ze
+\begin{equation*}
+	L = L(G)\text{ tj. }\mathcal{L}_{M} \subseteq \mathcal{L}_{3}
+\end{equation*}
+\emph{Dokaz}
+\begin{itemize}
+	\item Nech $M = (Q, \Sigma, \delta, q_{0}, F)$. Predpokladajme, ze $M$ je NKA. Nech $G = (Q,\Sigma,P,q_{0})$
+		je gramatika, ktorej pravidla su definovane ako
+	\item Ak $\delta(A,a) \in B$, tak $A \to aB \in P$
+	\item Ak $A \in F$, tak $A \to \varepsilon \in P$
+\end{itemize}
 
 \subsection*{Eliminacia nedosiahnutelnych stavov}
 \textbf{Nedosiahnutelny stav} - Nech $M = (Q, \Sigma, \delta, q_{0}, F)$ je KA, stav $q \in Q$ nazveme
@@ -202,5 +382,245 @@ Potom mozeme alternativne zapisat
 	\item Rozlozit regularny vyraz na primitivne zlozky
 	\item Zacneme zostrojovat KA pre jednotlive zlozky, nebudem to tu rozpisovat, je mozne to najst v slidoch, ale aj tak to kazdy pozna
 \end{enumerate}
+
+\subsection*{Vlastnosti regularnych jazykov}
+\subsection*{Konecne jazyky}
+Kazdy konecny jazyk je regularny.
+
+\emph{Dokaz} - Nech $L = \{w_{1}, w_{2}, ..., w_{n}\}$. Potom vieme zostrojit gramatiku
+$G = (\{S\}, \Sigma, \{S \to w_{1}|w_{2}|...|w_{n}\}, S)$, ktora je podla tvaru pravidiel typu 3.
+
+\subsection*{Pumping lemma}
+\begin{equation*}
+\exists p > 0: \forall w \in L: |w| \ge p \Rightarrow \exists x,y,z \in \Sigma^{*}: w = xyz \land |xy| \le p \land y \not= \varepsilon \land
+	\forall i \ge 0: xy^{i}z \in L
+\end{equation*}
+
+\emph{Dokaz} - Nech $L = L(M) = (Q, \Sigma, \delta, q_{0}, F)$ pre ktory plati, ze $|Q| = n$. Majme
+retazec $w \in L$, pre ktory plati $|w| \ge n$. Na prijatie takehoto retazca musi automat spravit minimalne
+$n$ prechodov medzi $n + 1$ konfiguraciami. Potom je zjavne, ze automat musi prejst minimalne
+2 krat cez rovnaky stav pri prijmani tohto retazca. Je tiez zjavne, ze k tomuto opakovaniu musi prist
+po nanajvys $n$ znakoch retazca. Rozdelme $w$ na casti $xyz$, tak ako vravi pumping lemma.
+Hovorime, ze existuje taky stav $r \in Q$ a take $k, 0 < k \le n$, ze plati
+\begin{equation*}
+	(q_{0}, xyz) \vdash^{*} (r, yz) \vdash^{k} (r, z) \vdash^{*} (q_{F}, \varepsilon), q_{F} \in F
+\end{equation*}
+Z toho vyplyva, ze existuje postupnost konfiguracii
+\begin{equation*}
+	(q_{0}, xy^{i}z) \vdash^{*} (r, y^{i}z) \vdash^{+}(r, y^{i - 1}z) \vdash^{+} ... \vdash^{+} (r, z) \vdash^{*} (q_{F}, \varepsilon), q_{F} \in F
+\end{equation*}
+Z toho je zjavne, ze $xy^{i}z \in L$ pre lubovolne $i \ge 0$.
+
+\subsection*{Myhill-Nerodova veta}
+3 ekvivalentne tvrdenia:
+\begin{enumerate}
+	\item Jazyk $L$ je prijimany DKA
+	\item Jazyk $L$ je zjednotenim niektorych tried relacie ekvivalencie $\sim$ s konecnym indexom, ktora je pravou kongruenciou
+	\item Relacia ekvivalencie $\sim_{L}$ ma konecny index
+\end{enumerate}
+
+\textbf{Prava kongruencia} - $\forall u,v,w \in \Sigma^{*}: u \sim v \Rightarrow uw \sim vw$
+
+\textbf{Prefixova ekvivalencia} - $\forall u,v \in \Sigma^{*}: u \sim_{L} v \overset{def}{\Leftrightarrow} \forall w \in \Sigma^{*}: uw \in L \Leftrightarrow vw \in L$
+
+\emph{Dokaz}
+\begin{itemize}
+	\item $1 \Rightarrow 2$
+		\begin{itemize}
+			\item Majme DKA $(Q,\Sigma,\delta,q_{0},F)$
+			\item Definujme vseobecnu prechodovu funkciu $\delta': Q \times \Sigma^{*} \to Q$ nasledovne
+			\item $\forall q,p \in Q \forall w \in \Sigma^{*}: \delta'(q,w) = p \Leftrightarrow (q,w) \vdash^{*} (p, \varepsilon)$
+			\item Definujme relaciu ekvivalencie $\sim$ nasledovne $\forall u,v \in \Sigma^{*}: u \sim v \Leftrightarrow \delta'(q_{0}, u) = \delta'(q_{0}, v)$
+			\item Tato relacia je ekvivalencia (reflexivna, symetricka, tranzitivna)
+			\item Je aj pravou kongruenciou
+				\begin{equation*}
+					\forall w \in \Sigma^{*}: \delta'(q_{0}, uw) = \delta'(\delta'(q_{0}, u), w) = \delta'(\delta'(q_{0}, v), w) = \delta'(q_{0}, vw)
+				\end{equation*}
+			\item Ma konecny index - pocet stavov
+			\item Jazyk $L$ je zjednotenim niektorych tried ekvivalencie, a to tych, ktore odpovedaju stavom v $F$
+		\end{itemize}
+	\item $2 \Rightarrow 3$ (Vojnar)
+		\begin{itemize}
+			\item Majme $u,v \in \Sigma^{*}$ take, $u \sim_{L} v$
+			\item Ukazeme, ze $\sim_{L}$ je prava kongruencia, teda $uw \sim_{L} vw$
+			\item Aby platilo $uw \sim_{L} vw$, tak musi platit ze $\forall w' \in \Sigma^{*}: uww' \in L \Leftrightarrow vww' \in L$
+			\item Nakolko je vsak $\sim_{L}$ prefixova ekvivalencia, tak vieme ze $\forall w'' \in \Sigma^{*}: uw'' \in L \Leftrightarrow vw'' \in L$
+			\item Vzhladom na uzavretost $\Sigma^{*}$ voci $\cdot$, mozeme predpokladat, ze $ww' \in \Sigma^{*}$ odpoveda $w'' \in Sigma^{*}$ a teda aj plati
+				ze $\forall w' \in \Sigma^{*}: uww' \in L \Leftrightarrow vww' \in L$
+		\end{itemize}
+	\item $2 \Rightarrow 3$ (Slidy)
+		\begin{itemize}
+			\item Majme $u,v \in \Sigma^{*}$ take, ze $u \sim v$. Ukazeme ze aj $u \sim_{L} v$.
+			\item Ak ma platit $u \sim_{L} v$, tak musi platit $\forall w \in \Sigma^{*}: uw \Leftrightarrow vw$
+			\item Vieme, ale ze $\sim$ je prava kongruancia, teda plati $uw \sim vw$ a nakolko je jazyk $L$
+				zjednotenim niektorych tried rozkladu $\Sigma^{*}\setminus\sim$, tak plati aj
+				$uw \in L \Leftrightarrow vw \in L$
+			\item Pokial ma $\sim$ konecny index, tak aj $\sim_{L}$ ma konecny index
+			\item Plati pritom, ze $\sim \subseteq \sim_{L}$
+			\item $\sim_{L}$ je najvacsia prava kongruancia na $\Sigma^{*}$
+		\end{itemize}
+	\item $3 \Rightarrow 1$
+		\begin{itemize}
+			\item Zostrojime DKA $M = (Q,\Sigma,\delta,q_{0},F)$, tak aby $L = L(M)$
+			\item $Q = \Sigma^{*}\setminus\sim_{L}$
+			\item $\forall w \in \Sigma^{*} \forall a \in \Sigma: \delta([w], a) = [wa]$
+			\item $q_{0} = [\varepsilon]$
+			\item $F = \{[w]\pipesep w \in L\}$
+			\item Tento automat odpoveda minimalnemu DKA
+		\end{itemize}
+\end{itemize}
+
+\subsection*{Uzaverove vlastnosti}
+Trieda regularnych jazykov je uzavrena voci zjednoteniu, konkatenacii a iteracii.
+
+Trieda regularnych jazykov tvori \textbf{Booleovu algebru} - $(\mathcal{L}_{3}, \cup, \cap, ', \Sigma^{*}, \varnothing)$
+\begin{enumerate}
+	\item $\Sigma^{*} \in \mathcal{L}_{3}$ a aj $\varnothing \in \mathcal{L}_{3}$. Uzavretost voci $\cup$ je zrejma.
+	\item \emph{Dokaz uzavretosti komplementu} - doplnku
+	\begin{itemize}
+		\item Majme abecedu $\Sigma$ a nejaku abecedu $\Delta \subseteq \Sigma$
+		\item Zostrojme automat $M = (Q,\Delta,\delta,q_{0},F)$, ktory prijma jazyk $L(M)$ nad abecedou $\Delta$
+		\item Automat prijmajuci komplement $L(M)$ voci $\Delta^{*}$ oznacme ako $M'$
+		\item $M' = (Q,\Delta,\delta,q_{0},Q \setminus F)$ prijma jazyk $L(M')$, co je komplement ku $L(M)$ voci $\Delta^{*}$
+		\item Komplement voci $\Sigma^{*}$ je potom jazyk $\overline{L}$
+		\item $\overline{L} = L(M') \cup \Sigma^{*}(\Sigma \setminus \Delta)\Sigma^{*}$
+	\end{itemize}
+	\item \emph{Dokaz uzavretosti voci $\cap$}
+	\begin{itemize}
+		\item Plynie z DeMorganovych zakonov
+		\item $L_{1} \cap L_{2} = \overline{\overline{L_{1} \cap L_{2}}} = \overline{\overline{L_{1}} \cup \overline{L_{2}}}$
+	\end{itemize}
+\end{enumerate}
+
+\subsection*{Rozhodnutelne problemy}
+\begin{enumerate}
+	\item \textbf{Neprazdnost} (rozhodnutelny) - $L(M) \not= \varnothing \Leftrightarrow \exists q \in Q : ((\exists w \in \Sigma^{*}: (q_{0}, w) \vdash^{*} (q, \varepsilon)) \land q \in F)$
+	\item \textbf{Nalezitost} (rozhodnutelny) - $w \in L \Leftrightarrow \exists q \in Q: (q_{0}, w) \vdash^{*} (q, \varepsilon) \land q \in F$
+	\item \textbf{Ekvivalencia} (rozhodnutelny) - $L(G_{1}) = L(G_{2}) resp. L_{1} = L_{2}?$
+		\begin{itemize}
+			\item Nech $M_{1}$ a $M_{2}$ su KA prijmajuce $L_{1}$ resp. $L_{2}$
+			\item Zostrojime automat $M = (Q_{1} \cup Q_{2}, \Sigma_{1} \cup \Sigma_{2}, \delta_{1} \cup \delta_{2}, q_{0}^{1}, F_{1} \cup F_{2})$
+			\item Vypocitame relaciu nerozlisitelnosti $\equiv$
+			\item $L_{1} = L_{2} \Leftrightarrow q_{0}^{1} \equiv q_{0}^{2}$
+		\end{itemize}
+\end{enumerate}
+
+\section{Bezkontextove jazyky}
+\textbf{Derivacny strom}
+\begin{itemize}
+	\item Nech $\alpha$ je vetna forma generovana v gramatike $G$ a nech $S \Rightarrow w_{1} \Rightarrow w_{2} \Rightarrow ... \Rightarrow \alpha$
+		je jej derivacia. Derivacny strom je stromove znazornenie derivacnych krokov v gramatike $G$. Jednotlive uzly stromu maju nasledujuce vlastnosti:
+	\item Jednotlive uzly stromu su ohodnotene mnozinou $N \cup \Sigma$. Koren stromu je ohodnoteny neterminalom $S$.
+	\item Priamej derivacii $\lambda A\nu \Rightarrow \lambda X_{1}X_{2}...X_{n}\nu$, na zaklade prepisovacieho pravidla $A \to X_{1}X_{2}...X_{n}$
+		odpoveda $n$ hran, ktore smeruju od rodicovskeho uzlu $A$ k uzlom $X_{i}, 1 \le i \le n$.
+	\item Ohodnotenie koncovych uzlov derivacneho stromu z lava do prava vytvara vetnu formu
+\end{itemize}
+
+\textbf{Lava a prava derivacia}
+\begin{itemize}
+	\item Nech je $\lambda A\nu$ vetna forma taka, ze $\lambda \in \Sigma^{*}, A \in N, \nu \in (N \cup \Sigma^{*})$ a nech v gramatike $G$ existuje
+		pravidlo $A \to \alpha$. Derivaciu $\lambda A\nu \Rightarrow \lambda\alpha\nu$ nazyva lavou derivaciou. Analogicky prava derivacia.
+	\item Slidy - Nech $S \Rightarrow \alpha_{1} \Rightarrow \alpha_{2} \Rightarrow ... \Rightarrow \alpha$ je derivacia vetnej formy $\alpha$.
+		Ak bol v kazdom retazci prepisan najlavejsi neterminal, potom tuto derivaciu nazyvame lavou (pravou) derivaciou vetnej formy $\alpha$.
+\end{itemize}
+
+\textbf{Fraza vetnej formy}
+Nech $G$ je gramatika a nech retazec $\lambda = \alpha\beta\gamma$ je vetna forma. Podretazec $\beta$ sa nazyva frazou vetnej forma vzhladom k neterminalu $A$, pokial plati
+$S \Rightarrow^{*} \alpha A\gamma$ a $A \Rightarrow^{+} \beta$. $\beta$ je jednoduchou frazou vetnej formy pokial $A \Rightarrow \beta$.
+
+\textbf{Viacznacnost gramatik}
+Nech $G$ je gramatika a $w$ je veta. Hovorime, ze veta $w$ je viacznacna, ak existuje viac derivacnych stromov, ktore generuju tuto vetu.
+Hovorime, ze gramatika je viacznacna, pokial generuje aspon 1 viacznacnu vetu. Inak hovorime o jednoznacnej gramatike. Jazyky, ktore je mozne
+generovat viacznacnou gramatikou, ale nie jednoznacou sa nazyvaju jazyky s inherentnou viacznacnostou.
+
+\subsection*{Transofrmacie bezkontextovych gramatik}
+\textbf{Ekvivalentne gramatiky}
+\begin{itemize}
+	\item Nech $G = (N, \Sigma, P, S)$. Pokial je $A \to \alpha B\beta \in P$ a $B \to \gamma_{1}|\gamma_{2}|...|\gamma_{n}$ su vsetky $B$-pravidla v $P$,
+		potom gramatika $G' = (N, \Sigma, P', S)$, kde
+		\begin{equation*}
+			P' = P \setminus \{ A \to \alpha B\beta, B \to \gamma_{1}|\gamma_{2}|...|\gamma_{n}\} \cup \{A \to \alpha\gamma_{1}\beta|\alpha\gamma_{2}\beta|...|\alpha\gamma_{n}\beta\}
+		\end{equation*}
+		je ekvivalentna s gramatikou $G$
+\end{itemize}
+
+\textbf{Nedostupne a zbytocne symboly}
+Nech je $G$ gramatika a $X \in (N \cup \Sigma)$ je symbol. Symbol moze byt
+\begin{itemize}
+	\item \textbf{Nedostupny} - Symbol $X$ je nedostupny pokial neexistuje derivacia $S \Rightarrow^{*} \alpha X\beta$ pre nejake $\alpha, \beta \in (\Sigma \cup N)^{*}$
+	\item \textbf{Zbytocny} - Symbol $X$ je zbytocny, pokial neexistuje derivacia $S \Rightarrow^{*} \alpha X\beta \Rightarrow^{*} w$ pre nejake $\alpha, \beta \in (\Sigma \cup N)^{*},
+		w \in \Sigma^{*}$
+\end{itemize}
+
+\textbf{Neterminaly generujuce terminalne retazce}
+\begin{itemize}
+	\item Vstup: $G = (N, \Sigma, P, S)$
+	\item Vystup: $N_{i} = \{A \pipesep A \Rightarrow^{+} w, w \in \Sigma^{*}\}$
+	\begin{flalign*}
+		&i := 1 & \\
+		&N_{0} = \{S\} & \\
+		&\texttt{repeat} & \\
+		&\hspace{1cm} N_{i} = N_{i-1} \cup \{A \pipesep A \to \alpha \in P \land \alpha \in (N_{i-1} \cup \Sigma)^{*}\} & \\
+		&\hspace{1cm} i := i + 1 & \\
+		&\texttt{until }N_{i} = N_{i-1} & \\
+	\end{flalign*}
+\end{itemize}
+
+\textbf{Dostupne symboly}
+\begin{itemize}
+	\item Vstup: $G = (N, \Sigma, P, S)$
+	\item Vystup: $V_{i} = \{X \pipesep S \Rightarrow^{*} \alpha X\beta, \alpha, \beta \in (N \cup \Sigma)^{*}\}$
+	\begin{flalign*}
+		&i := 1 & \\
+		&V_{0} = \{S\} & \\
+		&\texttt{repeat} & \\
+		&\hspace{1cm} V_{i} = V_{i-1} \cup \{X \pipesep A \to \alpha X\beta \in P \land A \in V_{i-1}\} & \\
+		&\hspace{1cm} i := i + 1 & \\
+		&\texttt{until }V_{i} = V_{i-1} & \\
+	\end{flalign*}
+\end{itemize}
+
+\textbf{Odstranenie zbytocnych symbolov}
+\begin{itemize}
+	\item Vstup: $G = (N, \Sigma, P, S)$
+	\item Vystup: $G' = (N', \Sigma', P', S)$
+	\item Vypocitaj $N_{i}$ podla algoritmu na vypocet neterminalov generujucich terminalne retazce
+	\item Zostroj $\overline{G} = (N_{i} \cup \{S\}, \Sigma, \overline{P}, S)$
+	\item $\overline{P} = \{A \to \alpha \pipesep A \to \alpha \in P \land A \in N_{i} \land \alpha (N_{i} \cup \Sigma)^{*}\}$
+	\item Vypocitaj $V_{i}$ podla algoritmu na vypocet dostupnych symbolov
+	\item $N' = N_{i} \cap V_{i}$
+	\item $\Sigma' = \Sigma \cap V_{i}$
+	\item $P' = \{A \to \alpha \pipesep A \to \alpha \in \overline{P} \land A \in N_{i} \cap V_{i} \land \alpha \in V_{i}^{*}\}$
+\end{itemize}
+
+\textbf{Odstranenie $\varepsilon$-pravidiel}
+\begin{itemize}
+	\item Vstup: $G = (N, \Sigma, P, S)$
+	\item Vystup: $N_{\varepsilon} = \{A \pipesep A \Rightarrow^{+} \varepsilon\}$
+	\begin{flalign*}
+		&i := 1 & \\
+		&N_{\varepsilon}^{0} = \varnothing & \\
+		&\texttt{repeat} & \\
+		&\hspace{1cm} N_{\varepsilon}^{i} = N_{\varepsilon}^{i-1} \cup \{A \pipesep A \to \alpha \in P \land \alpha \in (N_{\varepsilon}^{i-1})^{*}\} & \\
+		&\hspace{1cm} i := i + 1 & \\
+		&\texttt{until }N_{\varepsilon}^{i} = N_{\varepsilon}^{i-1} & \\
+	\end{flalign*}
+\end{itemize}
+
+\textbf{Odstranenie jednoduchych pravidiel}
+\begin{itemize}
+	\item Vstup: $G = (N, \Sigma, P, S)$
+	\item Vystup: $G' = (N, \Sigma, P', S)$
+	\item Pre vsetky $A \in N$ vypocitaj mnozinu $N_{A} = \{X \pipesep A \Rightarrow^{*} X\}$
+	\item Pre vsetky $X \in N_{A}$, pokial $X \to \alpha \in P$ a $\alpha \not\in N$, tak pridaj $A \to \alpha$ do $P'$
+\end{itemize}
+
+\textbf{Cyklus}
+
+Gramatika $G$ obsahuje cyklus pokial $A \in N: A \Rightarrow^{+} A$. Pokial gramatika obsahuje cyklus, tak je viacznacna.
+
+\emph{Dokaz} - Pokial existuje derivacia $S \Rightarrow^{*} \alpha A\beta \Rightarrow^{+} w$, tak existuje aj derivacia
+$S \Rightarrow^{*} \alpha A\beta \Rightarrow^{+} \alpha A\beta \Rightarrow^{+} w$. Tymto derivaciam prisluhuje viac
+derivacnych stromov.
 
 \end{document}
