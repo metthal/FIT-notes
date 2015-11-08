@@ -539,7 +539,7 @@ generovat viacznacnou gramatikou, ale nie jednoznacou sa nazyvaju jazyky s inher
 	\item Nech $G = (N, \Sigma, P, S)$. Pokial je $A \to \alpha B\beta \in P$ a $B \to \gamma_{1}|\gamma_{2}|...|\gamma_{n}$ su vsetky $B$-pravidla v $P$,
 		potom gramatika $G' = (N, \Sigma, P', S)$, kde
 		\begin{equation*}
-			P' = P \setminus \{ A \to \alpha B\beta, B \to \gamma_{1}|\gamma_{2}|...|\gamma_{n}\} \cup \{A \to \alpha\gamma_{1}\beta|\alpha\gamma_{2}\beta|...|\alpha\gamma_{n}\beta\}
+			P' = P \setminus \{ A \to \alpha B\beta\} \cup \{A \to \alpha\gamma_{1}\beta|\alpha\gamma_{2}\beta|...|\alpha\gamma_{n}\beta\}
 		\end{equation*}
 		je ekvivalentna s gramatikou $G$
 \end{itemize}
@@ -558,7 +558,7 @@ Nech je $G$ gramatika a $X \in (N \cup \Sigma)$ je symbol. Symbol moze byt
 	\item Vystup: $N_{i} = \{A \pipesep A \Rightarrow^{+} w, w \in \Sigma^{*}\}$
 	\begin{flalign*}
 		&i := 1 & \\
-		&N_{0} = \{S\} & \\
+		&N_{0} = \varnothing & \\
 		&\texttt{repeat} & \\
 		&\hspace{1cm} N_{i} = N_{i-1} \cup \{A \pipesep A \to \alpha \in P \land \alpha \in (N_{i-1} \cup \Sigma)^{*}\} & \\
 		&\hspace{1cm} i := i + 1 & \\
@@ -622,5 +622,66 @@ Gramatika $G$ obsahuje cyklus pokial $A \in N: A \Rightarrow^{+} A$. Pokial gram
 \emph{Dokaz} - Pokial existuje derivacia $S \Rightarrow^{*} \alpha A\beta \Rightarrow^{+} w$, tak existuje aj derivacia
 $S \Rightarrow^{*} \alpha A\beta \Rightarrow^{+} \alpha A\beta \Rightarrow^{+} w$. Tymto derivaciam prisluhuje viac
 derivacnych stromov.
+
+\textbf{Vlastna gramatika}
+
+Gramatika bez zbytocnych symbolov, $\varepsilon$-pravidiel a cyklov
+
+\textbf{Odstranenie lavej rekurzie}
+
+Nech gramatika $G$ ma pravidla v tvare
+\begin{equation*}
+	A \to A\gamma_{1} | A\gamma_{2} | ... | A\gamma_{n} | \beta_{1} | \beta_{2} | ... | \beta_{n}
+\end{equation*}
+Odstranenie lavej rekurzie je mozne nasledovnym postupom
+\begin{equation*}
+	A \to \beta_{1}A' | \beta_{2}A' | ... | \beta_{n}A' | \beta_{1} | \beta_{2} | ... | \beta_{n}
+\end{equation*}
+\begin{equation*}
+	A' \to \gamma_{1}A' | \gamma_{2}A' | ... | \gamma_{n}A' | \gamma_{1} | \gamma_{2} | ... | \gamma_{n}
+\end{equation*}
+
+\textbf{Odstranenie nepriamej lavej rekurzie}
+
+Aplikujeme vetu o ekvivalentnych gramatikach pokial sa nedostaneme k jednoduchej lavej rekurzii. Potom len odstranime jednoduchu
+lavu rekurziu.
+
+\subsection*{Normalne formy bezkontextovych gramatik}
+
+\textbf{CNF - Chomskeho Normalna Forma}
+\begin{itemize}
+	\item BKG $G = (N, \Sigma, P, S)$ je v CNF, pokial ma kazde pravidlo v $P$ jeden z tychto tvarov:
+		\begin{enumerate}
+			\item $A \to BC$ kde $A,B,C \in N$
+			\item $A \to a$ kde $A \in N, a \in \Sigma$
+			\item Ak $\varepsilon \in L(G)$ tak $S \to \varepsilon$ je jedine $\varepsilon$-pravidlo
+		\end{enumerate}
+	\item Pre kazdu gramatiku $G$ existuje gramatika $G'$, ktora je v CNF
+		\begin{itemize}
+			\item Pravidla podla tvaru $1,2,3$ prekopirujeme do $P'$
+			\item Pre pravidla v tvare $A \to X_{1}X_{2}...X_{n}$
+				zavedieme pravidla $A \to X_{1}\langle X_{2}...X_{n}\rangle$ a $\langle X_{2},X_{3}...X_{n}\rangle \to X_{2}\langle X_{3}...X_{n}\rangle$ atd.
+				Pre $n = 2$ zavedieme $\langle X_{n-1}X_{n}\rangle \to X_{n-1}X_{n}$.
+				V pripade ze $X_{i} \in \Sigma$, tak zaviedme neterminal $X_{i}'$, ktorym nahradime povodny $X_{i}$ a vytvorime pravidlo
+				$X_{i}' \to X_{i}$.
+			\item Pre pravidla tvaru $A \to X_{1}X_{2}$, v pripade ze $X_{i}$ tak zaviedme neterminal $X_{i}'$,
+				ktorym nahradime povodny $X_{i}$ a vytvorime pravidlo $X_{i}' \to X_{i}$.
+
+		\end{itemize}
+\end{itemize}
+
+\textbf{GNF - Greibachovej Normalna Forma}
+\begin{itemize}
+	\item BKG $G = (N, \Sigma, P, S)$ je v GNF, pokial ma kazde pravidlo v $P$ nasledujuci tvar
+	\begin{itemize}
+		\item $A \to a\alpha$ kde $a \in \Sigma, \alpha \in N^{*}$
+	\end{itemize}
+	\item Odstranime lavu rekuziu a $\varepsilon$ pravidla
+	\item Nech $G = (N, \Sigma, P, S)$ je BKG bez lavej rekurzie, potom existuje usporiadanie $\prec$, take ze
+		pokial existuje pravidlo $A \to B\alpha$, potom $A \prec B$
+	\item Najdeme toto usporiadanie a v opacnom poradi, ako je dane usporiadanie zacneme substituovat neterminaly
+	\item Pre kazdy terminal $a$ nachadzajuci sa na inej ako prvej pozicii na pravej strane pravidla vytvorime pravidlo
+		$a' \to a$ a nahradime neprve vyskyty $a$ za $a'$
+\end{itemize}
 
 \end{document}
