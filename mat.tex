@@ -552,7 +552,7 @@ Prvky mnoziny $S_{M}$ sa nazyvaju permutacie mnoziny $M$. Ak $M = \{1,2,...,n\}$
 \end{equation*}
 Cyklicky zapis:
 \begin{equation*}
-	S_{3} = \{ (1), (123), (312), (23), (13), (12) \}
+	S_{3} = \{ (1), (123), (132), (23), (13), (12) \}
 \end{equation*}
 \subsection{Podalgebry}
 \textbf{Uzavrena mnozina} - Bud $A$ mnozina, $\omega: A^{n} \to A$ $n$-arna operacia na $A$ a $T \subseteq A$.
@@ -632,7 +632,29 @@ $Ha$ \textbf{prava trieda rozkladu grupy} $G$ podla $H$.
 \textbf{Rozklad grupy} - $\{aH \pipesep a \in G\}$ - \textbf{lavy rozklad grupy} a analogicky pravy rozklad grupy
 
 \subsection{Izomorfizmy a homomorfizmy}
-TODO
+Nech su algebry $\mathcal{A} = (A,(\omega_{i})_{i \in I})$ a $\mathcal{A}^{*} = (A^{*},(\omega^{*}_{i})_{i \in I})$
+rovnakeho typu. Zobrazenie $f: A \to A^{*}$ sa nazyva \emph{homomorfizmus} algebty $\mathcal{A}$ do $\mathcal{A}^{*}: \Leftrightarrow$
+\begin{itemize}
+	\item Pre $n$-arne operacie $n \ge 1$ plati $\forall x_{1},...,x_{n}: f(\omega_{i}x_{1}...x_{n}) = \omega^{*}_{i}f(x_{1})...f(x_{n})$
+	\item Pre nularne operacie $f(\omega_{i}) = \omega^{*}_{i}$
+\end{itemize}
+
+\textbf{Linearne zobrazenie} - nech su $\mathcal{V} = (V,+,0,-,K)$ a $\mathcal{W} = (W,+,0,-,K)$ vektorove priestory nad polom $K$.
+$f: V \to W$ je homomorfizmus $\mathcal{V}$ do $\mathcal{W} \Leftrightarrow f$ je linearne zobrazenie teda
+\begin{itemize}
+	\item $f(x + y) = f(x) + f(y)$
+	\item $f(\lambda x) = \lambda f(x)$
+\end{itemize}
+
+Typy homomorfizmov:
+\begin{itemize}
+	\item \textbf{izomorfizmus} - pokial je $f$ bijektivne
+	\item \textbf{endomorfizmus} - pokial $\mathcal{A} = \mathcal{A}^{*}$
+	\item \textbf{automorfizmus} - pokial $\mathcal{A} = \mathcal{A}^{*}$ a $f$ je bijektivne
+	\item \textbf{epimorfizmus} - pokial je $f$ surjektivne
+	\item \textbf{monomorfizmus} - pokial je $f$ injektivne
+\end{itemize}
+
 \subsection{Relacia kongruencie a faktorove algebry}
 \textbf{Relacia kongruencie} - Bud $\mathcal{A} = (A, (\omega_{i})_{i \in I})$ algebra typu $(n_{i})_{i \in I}$
 a $\pi$ relacia ekvivalencie na $A$. $\pi$ sa nazyva relacia kongruencie $\Leftrightarrow$ pre vsetky $i \in I$
@@ -641,4 +663,46 @@ a $\pi$ relacia ekvivalencie na $A$. $\pi$ sa nazyva relacia kongruencie $\Leftr
 	a_{1}\pi b_{1} \land ... \land a_{n_{i}}\pi b_{n_{i}} \Rightarrow \omega_{i}a_{1}...a_{n_{i}}\pi \omega_{i}b_{i}...b_{n_{i}}
 \end{equation*}
 
+Nech $\mathcal{A} = (A,(\omega_{i})_{i \in I})$ je algebra a $\pi$ kongruencia na $\mathcal{A}$. Potom su vztahmi
+\begin{equation*}
+	\omega^{*}_{i}[a_{1}]_{\pi}...[a_{n}]_{\pi} = [\omega a_{1}...a_{n}]_{\pi} \text{ pre }n \ge 1
+\end{equation*}
+\begin{equation*}
+	\omega^{*}_{i} = [\omega_{i}]_{\pi} \text{ pre }n = 0
+\end{equation*}
+definovane operacie $(\omega^{*}_{i})_{i \in I}$ na faktorovej mnozine $A/\pi$
+
+\textbf{Faktorova algebra} - Algebra $\mathcal{A}/\pi$ = $(A/\pi,(\omega^{*}_{i})_{i \in I})$ sa nazyva faktorova algebra
+algebry $\mathcal{A}$ podla kongruencie $\pi$. Napr ak $(\mathbb{Z},+,0,-,\cdot,1)$ je algebra, a $\pi = \equiv\text{ mod }n$.
+Faktorova algebra je potom $(\mathbb{Z}_{n},+^{*},0^{*},-^{*},\cdot^{*},1^{*})$ - okruh zbytkovych tried modulo $n$
+
+\subsection{Relacia kongruencie na grupach a okruhoch}
+Bud $(G,\cdot,e,\textsuperscript{-1})$ grupa $\pi$ relacia ekvivalencie na $G$. Potom
+\begin{itemize}
+	\item $\pi$ je kongruencia na $(G,\cdot,e,\textsuperscript{-1})$ iff je kongruencia na $(G,\cdot)$
+	\item Ak je $\pi$ kongruencia na $G$ a $[e]_{\pi} = N$ potom
+	\begin{itemize}
+		\item $N$ je podgrupa $G$
+		\item $xNx^{-1} = \{xyx^{-1} \pipesep y \in N\} \subseteq N$
+		\item $x\pi y \Leftrightarrow x^{-1}y \in N$
+	\end{itemize}
+\end{itemize}
+\textbf{Normalna podgrupa} - $N$ sa nazyva normalna podgrupa grupy $G$ $(N \lhd G) \Leftrightarrow
+	\forall x \in G: xNx^{-1} \subseteq N$
+
+	\textbf{Ideal} - Bud $(R,+,0,-,\cdot)$ okruh a $I$ polokruh. Potom $I$ sa nazyva
+\begin{itemize}
+	\item Lavy ideal okruhu $R \Leftrightarrow \forall r \in R: rI = \{ ri \pipesep \in I\}
+		\subseteq I$
+	\item Pravy ideal okruhu $R \Leftrightarrow \forall r \in R: Ir = \{ ir \pipesep \in I\}
+		\subseteq I$
+	\item Ideal $I \lhd R \Leftrightarrow \forall r \in R: rI \subseteq I \land Ir \subseteq I$
+\end{itemize}
+
+\subsection{Priame suciny algebier}
+Nech su $\mathcal{A}_{k} = (A_{k}, (\omega^{(k)}_{i})_{i \in I)}), k \in K$ algebry rovnakeho typu, potom
+\begin{equation*}
+	A = \displaystyle\prod_{k \in K} A_{k} = \{(a_{k})_{k \in K} \pipesep a_{k} \in K\}
+\end{equation*}
+Kartezsky sucin vsetkych $A_{k}$. Operacie sa vytvaraju ako nove operacie, ktore operuju nad relaciou.
 \end{document}

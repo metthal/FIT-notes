@@ -684,4 +684,269 @@ lavu rekurziu.
 		$a' \to a$ a nahradime neprve vyskyty $a$ za $a'$
 \end{itemize}
 
+\subsection*{Zasobnikove automaty}
+$P = (Q,\Sigma,\Gamma,\delta,q_{0},Z_{0},F)$
+\begin{enumerate}
+	\item $Q$ -- konecna mnozina stavov
+	\item $\Sigma$ -- konecna vstupna abeceda
+	\item $\Gamma$ -- konecna zasobnikova abeceda
+	\item $\delta$ -- prechodova funkcia $Q \times (\Sigma \cup \{\varepsilon\}) \times \Gamma \to 2^{Q \times \Gamma^{*}}$
+	\item $q_{0} \in Q$ -- pociatocny stav
+	\item $Z_{0} \in \Gamma$ -- pocitacony zasobnikovy symbol
+	\item $F \subseteq Q$ -- mnozina koncovych stavov
+\end{enumerate}
+
+\textbf{Konfiguracia ZA}
+
+Konfiguracia ZA $(q,w,\alpha) \in Q \times \Sigma^{*} \times \Gamma^{*}$
+
+\textbf{Prechod ZA}
+
+$(q,w,\beta) \vdash (q',w',\beta') \overset{def}{\Leftrightarrow} w = aw' \land \beta' = \gamma\alpha \land \beta = Z\alpha \land (q',\gamma) \in \delta(q,a,Z)$
+
+\textbf{Jazyk prijmany ZA}
+
+$L(P) = \{w \in \Gamma^{*} \pipesep (q_{0},w,Z_{0}) \vdash^{*} (q_{F},\varepsilon,\gamma) \land q_{F} \in F\}$
+
+\textbf{Rozsireny ZA}
+
+$\delta: Q \times (\Gamma \cup \{\varepsilon\}) \times \Gamma^{*} \to 2^{Q \times \Gamma^{*}}$
+
+\textbf{Ekvivalencia ZA a RZA}
+
+Nech $P = (Q,\Sigma,\Gamma,q_{0},z_{0},F)$ je RZA, potom existuje ZA $P'$ taky, ze $L(P) = L(P')$
+
+\emph{Dokaz} \\
+Polozme $m = max\{|\alpha| \pipesep \delta(q,a,\alpha) \not= \varnothing, q \in Q, a \in \Sigma \cup \{\varepsilon\}, \alpha \in \Gamma^{*}\}$
+TODO VRATIT SA K TOMUTO
+
+\textbf{ZA prijamjuci s vyprazdnenim zasobniku}
+
+Pokial
+
+$L(P) = \{w \in \Sigma^{*} \pipesep (q_{0},w,z_{0}) \vdash^{*} (q,\varepsilon,\varepsilon)\}$
+
+Ku kazdemu ZA (RZA), ktory prijma prechodom do koncoveho stavu, existuje ZA (RZA), ktory prijma vyprazdnenim zasobniku.
+
+Automat $P'$ bude simulovat $P$ tak, ze pri prechode do jedneho z koncovych stavov prejde do specialneho stavu $q_{\varepsilon}$, ktory sposobi vyprazdnenie zasobniku.
+Aby sme ale zamedzili nechcenemu vyprazdneniu, tak na dno zasobnika umiestnime specialny symbol. Tento symbol moze vytiahnut len $q_{\varepsilon}$.
+
+\textbf{Ekvivalencia BKJ a jazykov prijmanych ZA - $\mathcal{L}_{2} = \mathcal{L}_{P}$}
+
+$\mathcal{L}_{2} \subseteq \mathcal{L}_{P}$
+
+Ku gramatike $G$ zostrojime ZA $P'$ tak, aby modeloval syntakticku analyzu zhore nadol.
+\begin{itemize}
+	\item Ak $A \to \alpha \in P$, tak $(q,\alpha) \in \delta(q,\varepsilon,A)$
+	\item Pre kazde $a \in \Sigma$, pridaj $(q,\varepsilon) \in \delta(q,a,a)$
+\end{itemize}
+
+Ku gramatike $G$ zostrojime RZA $P'$ tak aby modeloval syntakticku analyzu zdola nahor.
+\begin{itemize}
+	\item Ak $A \to \alpha \in P$, tak $(q,A) \in \delta(q,\varepsilon,\alpha^{R})$
+	\item Pre kazde $a \in \Sigma$, pridaj $(q,a) \in \delta(q,a,\varepsilon)$
+	\item $(r,\varepsilon) \in \delta(q,\varepsilon,S\#)$
+\end{itemize}
+
+$\mathcal{L}_{P} \subseteq \mathcal{L}_{2}$
+
+TODO
+
+\subsection*{Vlastnosti bezkontextovych jazykov}
+
+\textbf{Pumping lemma}
+
+Nech $L$ je BKJ,
+
+$\exists p > 0: \forall z \in L: |z| \ge p \Rightarrow z = uvwxy \land |vwx| \le p \land vx \not= \varepsilon \land \forall i: uv^{i}wx^{i}y \in L$
+
+\emph{Dokaz}
+
+Majme BKG $G$ v CNF
+\begin{itemize}
+	\item Nech $A \Rightarrow^{+} w$ je derivacia a $m$ je dlzka maximalnej cesty v derivacnom strome
+	\item Potom $|w| \le 2^{m-2}$, lebo $2^{m-2}$ odpoveda maximalnemu poctu listov v tomto binarnom strome
+	\item Polozme $k = 2^{N}$ a uvazujme vetu $z, |z| \ge k$
+	\item $2^{|N|} \le 2^{m-2} \Rightarrow |N| + 2 \le m$, najdlhsia cesta teda obsahuje az $|N| + 2$ vrcholov,
+		jeden z toho je terminal a jeden neterminal $A$ sa tam teda opakuje
+	\item $A \Rightarrow^{*} uAy \Rightarrow^{+} uvAxy \Rightarrow^{*} uvwxy = z$
+	\item Potom ale aj $uv^{i}wv^{i}y \in L(G)$
+\end{itemize}
+
+\textbf{Substitucia jazykov}
+
+$\sigma_{L_{a_{1}},L_{a_{2}},...,L_{a_{n}}}(L) = \{x_{1}x_{2}...x_{m} \pipesep b_{1}b_{2}...b_{m} \land \forall i \in \{1,...,m\}: x_{i} \in L_{b_{i}}\}$
+
+\textbf{Morfizmus jazykov}
+
+$h: \Sigma^{*} \to \Delta^{*}$\\
+$\forall w \in \Sigma^{*}, w = a_{1}a_{2}...a_{n} : h(w) = h(a_{1})h(a_{2})...h(a_{n})$\\
+
+\textbf{Uzavretost voci substitucii}
+
+\begin{itemize}
+	\item Majme jazyk L generovany $G = (N,\Sigma,P,S)$ a jazyky $L_{a}$ generovane $G_{a} = (N_{a}, \Sigma_{a}, P_{a}, S_{a})$
+	\item Zobrazenie $h$ definovane takto:
+		\begin{itemize}
+			\item $h(A) = A, A \in N$
+			\item $h(a) = S_{a}, a \in \Sigma$
+		\end{itemize}
+	\item Jazyk $\sigma(L) = L'$ bude generovany gramatikou $G'=(N',\Sigma',P',S')$
+	\item $N' = N \cup \bigcup N_{a}$
+	\item $\Sigma' = \bigcup \Sigma_{a}$
+	\item $P' = \{A \to h(\alpha) \pipesep A \to \alpha \in P\} \cup \bigcup P_{a}$
+\end{itemize}
+
+\textbf{Deterministicky ZA}
+
+ZA nazyva deterministicky pokial pre kazde $q \in Q$ a $z \in \Gamma$ plati bud
+\begin{itemize}
+	\item $|\delta(q,a,z)| \le 1, a \in \Sigma \land \delta(q,\varepsilon,z) = \varnothing$
+	\item Alebo $\delta(q,a,z) = \varnothing, a \in \Sigma \land |\delta(q,\varepsilon,z)| \le 1$
+\end{itemize}
+$L(P)$ sa nazyva deterministicky bezkontextovy jazyk
+
+DZA s vyprazdnenim zasobniku maju mensiu vyjadrovaciu silu ako DZA prechodom do koncoveho stavu. (nemozu prijat
+jazyk, ktory obsahuje 2 take retazce ze 1 je prefixom druheho)
+
+\textbf{Deterministicky RZA}
+\begin{itemize}
+	\item $\forall q \in Q, a \in \Sigma \cup \{\varepsilon\} \forall \gamma \in \Gamma^{*}: |\delta(q,a,\gamma)| \le 1$
+	\item Ak $\delta(q,a,\alpha) \not= \varnothing$ a $\delta(q,a,\beta) \not= \varnothing$ a $\alpha \not= \beta$ potom $\alpha$ nie je prefixom $\beta$
+		a $\beta$ nie je prefixom $\alpha$
+	\item Ak $\delta(q,a,\alpha) \not= \varnothing$ a $\delta(q,\varepsilon,\beta) \not= \varnothing$ potom $\alpha$ nie je prefixom $\beta$
+		a $\beta$ nie je prefixom $\alpha$
+\end{itemize}
+
+DRZA maju ekvivalentnu silu ako DZA
+
+DZA maju striktne mensiu vyjadrovaciu schopnost ako NZA
+
+\section{Turingove stroje}
+\subsection*{Turingov stroj}
+$M = (Q,\Sigma,\Gamma,\delta,q_{0},q_{F})$
+\begin{itemize}
+	\item $Q$ -- konecna mnozina stavov
+	\item $\Sigma$ -- konecna vstupna abeceda, $\Delta \not\in \Sigma$
+	\item $\Gamma$ -- konecna paskova abeceda, $\Sigma \subset \Gamma, \Delta \in \Gamma$
+	\item $\delta$ -- prechodova funkcia, $(Q \setminus \{q_{F}\}) \times \Gamma \to Q \times (\Gamma \times \{L,R\}), L,R \not\in \Gamma$
+	\item $q_{0}$ -- pociatocny stav
+	\item $q_{F}$ -- prijmajuci stav
+\end{itemize}
+
+\textbf{Konfiguracia pasky}
+
+Konfiguracia pasky je $(w,n) \in \{\gamma\Delta^{\omega} \pipesep \gamma \in \Gamma^{*}\} \times \mathbb{N}$
+
+\textbf{Konfiguracia stroja}
+
+Konfiguracia stroja je $(q,w,n) \in Q \times \{\gamma\Delta^{\omega} \pipesep \gamma \in \Gamma^{*}\} \times \mathbb{N}$
+
+\textbf{Prechodova relacia TS}
+
+$\gamma_{n}$ -- n-ty symbol retazca $\gamma$\\
+$s^{n}_{b}(\gamma)$ -- substitucia n-teho symbolu v retazci $\gamma$ za symbol $b$ \\
+Krok vypoctu $\vdash$
+\begin{itemize}
+	\item $(q,\gamma,n) \vdash (p,\gamma,n+1)$ pre $(p,R) = \delta(q,\gamma_{n})$, $n \ge 0$
+	\item $(q,\gamma,n) \vdash (p,\gamma,n-1)$ pre $(p,L) = \delta(q,\gamma_{n})$, $n > 0$
+	\item $(q,\gamma,n) \vdash (p,s^{n}_{b}(\gamma),n)$ pre $(p,b) = \delta(q,\gamma_{n})$, $b \in \Gamma$
+\end{itemize}
+
+\textbf{Vypocet TS}
+
+Vypocet TS je postupnost konfiguracii stroja $K_{0}, K_{1}, ...$, taka ze $K_{i} \vdash K_{i+1}$, ktora je bud
+\begin{itemize}
+	\item Nekonecna
+	\item Konecna, s koncovou konfiguraciou $(q,\gamma,n)$, pricom pozname 2 typy zastavenia
+		\begin{itemize}
+			\item Normalne -- prechod do $q_{F}$
+			\item Abnormalne -- prechod z konfiguracie $(q,\gamma,0)$ dolava, alebo nedefinovana $\delta$ pre $q \in Q, a \in \Gamma$
+		\end{itemize}
+\end{itemize}
+
+\textbf{Jazyk prijmany TS}
+
+Retazec $w \in \Sigma^{*}$ je prijaty strojom $M = (Q,\Sigma,\Gamma,\delta,q_{0},q_{F})$ pokial $M$ z pociatocnej konfiguracie
+$(q_{0},\Delta w \Delta^{\omega}, 0)$ prejde do konfiguracie $(q_{F}, \gamma, n)$, pre nejake $\gamma \in \Gamma^{\omega}, n \in \mathbb{N}$.
+
+\textbf{Prijatie specialnou konfiguraciou pasky}
+
+TS prejde z konfiguracie pasky $(\Delta w \Delta^{\omega}, 0)$ do konfiguracie pasky $(\Delta Y \Delta^{\omega}, 0)$\\
+Pokial mame TS, ktory prijma prechodom do $q_{F}$, tak mozeme zostrojit TS $M'$, ktory prijme konfiguraciou pasky.
+
+\begin{itemize}
+	\item Doplnime uvodnu reziu, ktora konfiguraciu pasky $(\Delta w \Delta^{\omega}, 0)$ zmeni na
+		$(\#\Delta w * \Delta^{\omega}, 1)$
+	\item Spustime povodny $M$
+	\item Vykoname najazd na $*$, nasledne postupujeme smerom dolava a prepisujeme obsah pasky so symbolom $\Delta$
+		az pokym nenarazime na $\#$. Potom len zapiseme $Y$ na druhu poziciu -- $\Delta RYL$
+\end{itemize}
+
+\textbf{Viacpaskovy TS}
+
+Uvazujeme TS, ktory ma $k$ pasiek a $k$ paskovych abecied $\Gamma_{1}, \Gamma_{2}, ..., \Gamma_{k}$
+a prechodovu funkciu $\delta$ ako
+\begin{equation*}
+	(Q \setminus \{q_{F}\}) \times \Gamma_{1} \times \Gamma_{2} \times ... \times \Gamma_{k} \to Q \times \bigcup \{i\} \times (\Gamma_{i} \cup \{L,R\})
+\end{equation*}
+Pre kazdy $k$ paskovy TS existuje ekvivalentny 1 paskovy TS
+TODO
+
+\textbf{Nedeterministicky TS}
+
+$\delta: (Q \setminus \{q_{F}\}) \times \Gamma \to 2^{Q \times (\Gamma \cup \{L,R\}}$
+
+\subsection*{Jazyky rekurzivne a rekurzivne vycislitelne}
+
+TS je uplny, pokial zastavi pre kazdy svoj vstup \\
+Jazyk $L$ sa nazyva
+\begin{itemize}
+	\item \textbf{Rekurzivny} -- ak $L = L(M)$, pre nejaky uplny TS
+	\item \textbf{Rekurzivne vycislitelny} -- ak $L = L(M)$ pre nejaky TS
+\end{itemize}
+Ak je M uplny, tak $M$ \textbf{rozhoduje} jazyk $L$
+
+\textbf{Rozhodovaci problem} \\
+Rozhodovaci problem $P$ moze byt chapany ako funkcia $f_{P}$ s oborom hodnot $\{true, false\}$.\\
+Rozhodovaci problem ma specifikovane\\
+\begin{itemize}
+	\item Definicny obor $A_{P}$ -- instance daneho problemu
+	\item Podmnozinou $B_{P} \subseteq A_{P}$, pre ktoru plati ze $B_{P} = \{p \in A_{P} \pipesep f_{P}(p) = true\}$
+\end{itemize}
+
+\textbf{Rozhodovanie problemov TS}\\
+Nech je problem $P$ specifikovany jazykom $L_{P}$. Nazveme h
+\begin{itemize}
+	\item \textbf{Rozhodnutelny} -- ak existuje uplny TS M, ktory ho rozhoduje, tj. pokial je $L_{P}$ rekurzivny jazyk
+	\item \textbf{Nerozhodnutelny} -- nie je rozhodnutelny
+	\item \textbf{Ciastocne rozhodnutelny} -- existuje TS, ktory zastavi pre $p \in L_{P}$, ale moze cyklit pre $p \not\in L_{P}$, teda $L_{P}$ je jazyk rekurzivne vycislitelne
+\end{itemize}
+
+\textbf{Jazyky typu 0}\\
+Kazdy jazyk, ktory prijma TS, je jazyk typu 0
+\begin{itemize}
+	\item $G = (N,\Sigma,P,S)$
+	\item $N = \{S\} \cup Q \cup (\Gamma \setminus \Sigma) \cup \{[,]\}$
+	\begin{itemize}
+		\item $S \to [q_{F}\Delta Y \Delta]$
+		\item $\Delta] \to \Delta\Delta]$
+		\item $xp \to qx$ ak $\delta(q,x) = (p,R)$
+		\item $pxy \to xqy$ ak $\delta(q,x) = (p,L)$
+		\item $py \to qx$ ak $\delta(q,x) = (p,y)$
+		\item $\Delta\Delta] \to \Delta]$
+		\item $[q_{0}\Delta \to \varepsilon$
+		\item $\Delta] \to \varepsilon$
+	\end{itemize}
+\end{itemize}
+
+Kazdy jazyk typu 0 je prijmany TS
+\begin{itemize}
+	\item Zostrojime dvojpaskovy NTS $M$
+	\item Na prvu pasku zapiseme retazec $w$ a na druhu pociatocny neterminal $S$
+	\item Nedeterministicky sa vyberie pravidlo $\alpha \to \beta \in P$ a aplikuje sa na druhej paske
+\end{itemize}
+$\mathcal{L}_{0} = \mathcal{L}_{TS}$
+
 \end{document}
+
