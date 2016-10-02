@@ -797,6 +797,35 @@ $\forall w \in \Sigma^{*}, w = a_{1}a_{2}...a_{n} : h(w) = h(a_{1})h(a_{2})...h(
 	\item $P' = \{A \to h(\alpha) \pipesep A \to \alpha \in P\} \cup \bigcup P_{a}$
 \end{itemize}
 
+\textbf{Uzavretost voci inym operaciam} \\
+Majme 2 jazyky $L_{a}$ a $L_{b}$
+\begin{itemize}
+	\item Uzavretost voci $\cup$ -- substitucia do $\{a,b\}$
+	\item Uzavretost voci $\cdot$ -- substitucia do $\{ab\}$
+	\item Uzavretost voci $*$ -- substitucia do $\{a\}^{*}$
+	\item Uzavretost voci $+$ -- substitucia do $\{a\}^{+}$
+	\item Uzavretost voci morfizmu -- vyplyva zo subtitucie
+	\item Uzavretost voci prieniku s reg. jazykmi -- konstrukcia ZA, ktory zaroven vykonava ZA a KA
+	\item Uzavretost voci inverznemu morfizmu
+		\begin{itemize}
+			\item Majme jazyk $L \subseteq \Sigma_{2}^{*}$
+			\item Idea spociva v konstrukcii $\overline{\Sigma_{1}} = \{\overline{a} \pipesep a \in \Sigma_{1}\}$
+			\item Nasledne $\forall c \in \Sigma_{2}: L_{c} = \overline{\Sigma_{1}}^{*}c\overline{\Sigma_{1}}^{*}$
+			\item Definujeme jazyk $L_{1} = \{\overline{a}.h(a) \pipesep a \in \Sigma_{1}\}$
+			\item Polozime $L_{2} = \sigma(L) \cap L_{1}^{*}$
+			\item Zostrojime morfizmus $h1: (\overline{\Sigma_{1}} \cup \Sigma_{2})^{*} \to \Sigma_{1}^{*}$, tak ze $\overline{a}\in \overline{\Sigma_{1}}$ sa zobrazi na $a$ a
+				$a \in \Sigma_{2}$ sa zobrazi na $\varepsilon$
+			\item $h^{-1}(L) = h1(L_{2})$
+			\item $L_{1}$ je jazyk regularny, $\sigma(L)$ je jazyk BKJ (z uzavrenosti substitucie), prienik BKJ a RJ je BKJ, morfizmus je tiez uzavrety, takze inverzny morfizmus tiez
+		\end{itemize}
+\end{itemize}
+
+\textbf{Neuzavrenost}
+\begin{itemize}
+	\item Neuzavrenost voci $\cap$ -- $a^{n}.b^{n}.c^{m} \cap a^{m}.b^{n}.c^{n} = a^{n}.b^{n}.c^{n}$
+	\item Neuzavrenost voci doplnku -- $L_{1} \cap L_{2} = \overline{\overline{L_{1}} \cup \overline{L_{2}}}$
+\end{itemize}
+
 \textbf{Deterministicky ZA}
 
 ZA nazyva deterministicky pokial pre kazde $q \in Q$ a $z \in \Gamma$ plati bud
@@ -947,6 +976,268 @@ Kazdy jazyk typu 0 je prijmany TS
 	\item Nedeterministicky sa vyberie pravidlo $\alpha \to \beta \in P$ a aplikuje sa na druhej paske
 \end{itemize}
 $\mathcal{L}_{0} = \mathcal{L}_{TS}$
+
+\textbf{Uzavretost voci operaciam}
+\begin{itemize}
+	\item Uzavretost voci $\cup$ -- zstrojime NTS $M_{L_{1} \cup L_{2}}$, ktory nedetermisticky vyberie, ci
+		spusti povodny stroj $M_{1}$, alebo povodny stroj $M_{2}$
+	\item Uzavretost voci $\cap$ -- zostrojime TS $M_{L_{1} \cap L_{2}}$, ktory spusti oba $M_{1}$ aj $M_{2}$
+		a pokial obe prijmu, tak prijme aj $M_{L_{1} \cap L_{2}}$
+	\item Uzavretost voci $\cdot$ -- zostrojime NTS $M_{L_{1}.L_{2}}$, ktory nedeterministicky rozdeli vstup $w$
+		na 2 casti $w_{1}.w_{2}$ a spusti $M_{1}$ nad $w_{1}$ a $M_{2}$ nad $w_{2}$ a ak oba prijmu, tak prijme.
+	\item Uzavretost voci $*$ -- zostrojime NTS $M_{L_{1}^{*}}$, ktory nedeterministicky vyberie prefix z retazca
+		$w$ nad ktorym spusti $M_{L_{1}}$ a takto postupuje postupne nad zvyskom vstupu $w$. Prijme pokial $M_{L_{1}}$
+		prijme kazdu cast.
+	\item Rekurzivne jazyky su uzavrete voci komplementu -- dokazeme upravit uplny TS M tak, aby pre kazde nedefinovane
+		$\delta$ presiel do $q_{reject}$, a taktiez umiestnit na lavy koniec pasky taky symbol, z ktoreho vedie len jeden
+		prechod do $q_{reject}$. Pokial potom vymenime $q_{F}$ a $q_{reject}$ tak dostavame uplny TS $\overline{M}$
+\end{itemize}
+
+\textbf{Ak su $L$ a $\overline{L}$ rekurzivne vycislitelne, tak su oba rekurzivne}
+\begin{itemize}
+	\item Simulujeme $M$ a $\overline{M}$ krok po kroku na striedacku
+	\item Prijmeme ak prijme $M$, odmietneme ak prijme $\overline{M}$
+	\item Nakolko su rekurzivne jazyky uzavrete voci komplementu, tak $L$ aj $\overline{L}$ musia byt rekurzivne
+\end{itemize}
+
+\subsection*{Linearne Obmedzene Automaty}
+
+LOA je NTS, ktory nikdy neopusti cast pasky, na ktorej je zapisany jeho vstup.\\
+DLOA je DTS.\\
+\textbf{Triedu jazykov generovanu kontextovymi gramatikami je mozne prijmat LOA}
+\begin{itemize}
+	\item $\mathcal{L}_{LOA} \subseteq \mathbb{L}_{1}$
+	\begin{itemize}
+		\item Ako u TS, len nebudeme mat pravidlo $\Delta] \to \Delta\Delta]$, ktore rozsiruje pasku a
+			musime sa nejako postarat o nekontextove pravidla $[q_{0}\Delta \to \varepsilon$ a $\Delta] \to \varepsilon$.
+	\end{itemize}
+	\item $\mathcal{L}_{1} \subseteq \mathcal{L}_{LOA}$
+	\begin{itemize}
+		\item Ako u TS, ale zamedzime aby sa prekrocila hranica pasky
+	\end{itemize}
+\end{itemize}
+
+\textbf{Kazdy kontextovy jazyk je rekurzivny}\\
+Vzhladom na obmedzenie pasky moze dojst len ku konecnemu mnozstvu konfiguracii, cez ktore sa prejde na prijatie vstupu.
+Dokazeme obmedzit zhora nejakou hranicou a odmietnut ak dojde k prekroceniu tejto hranice.\\
+\\
+\textbf{Nie kazdy rekurzivny jazyk je kontextovy}\\
+
+\section{Rozhodnutelnost}
+
+\subsection*{Jazyky mimo triedu 0}
+\textbf{Pre kazdu abecedu existuje jazyk nad nou, ktory nie je typu 0}
+\begin{itemize}
+	\item Mnozina vsetkych TS nad $\Sigma$ je spocetna
+	\item Mnozina vsetkych jazykov $2^{\Sigma^{*}}$ je nespocetna
+		\begin{itemize}
+			\item \emph{Dokaz}
+			\item Predpokladajme ze $2^{\Sigma^{*}}$ je spocetna, tak existuje bijektivne zobrazenie $f: 2^{\Sigma^{*}} \leftrightarrow \mathbb{N}$
+			\item Usporiadame reťazce $w_{i}$ za sebou. Teraz zvolíme jazyky $L_{i}$ pod seba a vždy dáme 1 do matice ak $w_{i} \in L_{j}$ a $0$ ak $w_{i} \not\in L_{j}$.
+			\item Zostrojíme jazyk $L_{d} = \{ w_{i} \pipesep w_{i} \not\in L_{i}\}$. $L_{d}$ je ale odlišný od každého $L_{i}$ aspoň v 1 reťazci. Ale $L_{d} \in 2^{\Sigma^{*}}$,
+				tým pádom ale $f$ nie je surjektivne.
+		\end{itemize}
+\end{itemize}
+
+\subsection*{Problem zastavenia}
+\textbf{Kodovanie TS}\\
+Kodujeme stavy, znaky a prechody na postupnosti $0$ a $1$.\\
+\textbf{Univerzalny TS}\\
+Vstup $\langle M \rangle \# \langle w \rangle$ -- simulacia zakodovaneho TS $M$ nad zakodovanym vstupom $w$
+\begin{itemize}
+	\item 3 pasky
+	\item 1. paska -- vstup
+	\item 2. paska -- parcovna paska simulovaneho stroja
+	\item 3. paska -- ulozeny stav a pozicia na paske simulovaneho stroja
+\end{itemize}
+\textbf{Problem zastavenia}\\
+$HP = \{\langle M \rangle \# \langle w \rangle \pipesep M\text{ zastavi na }w\}$\\
+Podla diagonalizacie nerozhodnutelny, a nechce sa mi tu pisat ten dokaz, studoval som to dost krat na to, aby som to vedel. \\
+
+\textbf{Redukcia}
+\begin{itemize}
+	\item Redkujeme jeden problem $A$ na iny problem $B$ uplnym TS -- $A \le B$
+	\item Nech $\Sigma_{1}, \Sigma_{2}$ su abecedy a $A$ jazyk nad $\Sigma_{1}$, $B$ jazyk nad $\Sigma_{2}$
+	\item Reduckia dana zobrazenim $\sigma: \Sigma_{1}^{*} \to \Sigma_{2}^{*}$
+	\item $\sigma$ zachovava prislusnost do jazyka $\forall w \in \Sigma_{1}^{*}: w \in A \Leftrightarrow \sigma(w) \in B$
+	\item Plati nasledovne:
+		\begin{itemize}
+			\item Ak $A$ nie je rekurzivne vycislitelny, tak aj $B$ nie je rekurzivne vycislitelny
+			\item Ak $A$ nie je rekurzivny problem, tak aj $B$ nie je rekurzivny problem
+			\item Ak $B$ je rekurzivne vycislitelny, tak aj $A$ je rekurzivne vycislitelny
+			\item Ak $B$ je rekurzivny, tak aj $A$ je rekurzivny
+		\end{itemize}
+\end{itemize}
+
+\subsection*{Postov korespondencny problem}
+\begin{itemize}
+	\item \textbf{Postov system} -- je dany neprazdnym zoznamom $S$ dvojic neprazdnych retazcov nad $\Sigma$: $\langle (\alpha_{1}, \beta_{1}), ..., (\alpha_{n}, \beta_{n})\rangle$
+		$\alpha,\beta \in \Sigma^{+}, n \ge 1$
+	\item \textbf{Riesenie postovho systemu} -- neprazdna postupnost prirodzenych cisel $\langle i_{1},...,i_{k}\rangle$, taka ze
+		\begin{equation*}
+			\alpha_{i_{1}}\alpha_{i_{2}}...\alpha_{i_{k}} = \beta_{i_{1}}\beta_{i_{2}}...\beta_{i_{k}}
+		\end{equation*}
+	\item \textbf{Postov problem} -- Je postov system riesitelny?
+	\item \textbf{PCP je nerozhodnutelny}
+		\begin{itemize}
+			\item Redukcia z $MP$
+			\item $M_{\sigma}$ vytvori viacpaskovy TS $M'$, ktory bude mat v sebe zakodovany jeho vstup $\langle M \rangle \# \langle w \rangle$
+			\item $M'$ bude mat minimalne 2 pasky, jednu pre $\alpha$ a jednu pre $\beta$ retazce Postovho systemu
+			\item Najskor sa zapise na $\alpha$ pasku $\#$ a $\beta$ pasku $\#\langle\text{pociatocna konf. TS}\rangle$, co odpoveda dvojici $(\#,\#\langle...\rangle)$
+			\item Na zaklade aktualnej konfiguracie na $\beta$ paske, vykonaj akciu budto vytvorenim dvojice $(qa,ap)$ pre posun doprava, dvojicu $(aqb,pab)$ pre posun dolava,
+				dvojicu $(qa,pb)$ pre prepis pasky a inak zvysok konfiguracie z $\beta$ prekopiruj na $\alpha$.
+			\item Ku koncu je treba obe pasky zarovnat a preto vytvaraj dvojice s $q_{F}$ so susednymi znakmi, dokedy nie su uz len aktualne konfiguracie zlozene s $q_{F}$ a $\#$
+			\item Pokial existuje taka postupnost konfiguracii, tak je PCP riesitelny a zaroven $M$ prijma $w$
+		\end{itemize}
+\end{itemize}
+
+\section{Vycislitelne funkcie}
+\subsection*{Rekurzivne funkcie}
+\textbf{Pociatocne funkcie}
+\begin{itemize}
+	\item Nulova funkcia -- $\xi() = 0$
+	\item Funkcia nasledovnika -- $\sigma(x) = x + 1$
+	\item Projekcia -- $\pi_{k}^{n}(x_{1},x_{2},...,x_{n}) = x_{k}$
+\end{itemize}
+\textbf{Primitivne rekurzivne funkcie}
+\begin{itemize}
+	\item 3 sposoby vytvarania novych funkcii
+	\item Kombinacia -- $f \times g(\overline{x}) = (f(\overline{x}),g(\overline{x}))$
+	\item Kompozicia -- $f \circ g(\overline{x}) = f(g(\overline{x}))$
+	\item Primitivna rekurzia
+		\begin{itemize}
+			\item $f(\overline{x},0) = g(\overline{x})$
+			\item $f(\overline{x},y+1) = h(\overline{x},y,f(\overline{x},y))$
+		\end{itemize}
+	\item Vsetky funkcie z triedy primitivne rekurzivnych funkcii mozu byt vytvorene uzitim tychto 3 technik na pociatocne funkcie
+\end{itemize}
+\textbf{Existuju funkcie, ktore su vycislitelne, ale nie su primitivne rekurzivne} -- vsetky striktne parcialne a aj niektore totalne (Ackermann)\\
+Dokaz diagonalizaciou -- mozme vytvorit usporiadania funkcii $f_{1},f_{2},...$, nasledne vytvorime funkciu $f_{d} = f_{n}(n) + 1$ -- je totalna a vycislitelna, ale nie je
+v zozname, lebo je odlisna od vsetkych $f_{n}$, pricom nie je primitivne vycislitelna\\
+\textbf{Trieda totalnych vycislitelnych funkcii sa nazyva $\mu$-rekurzivne funkcie}\\
+\\
+\textbf{Parcialne rekurzivne funkcie}
+\begin{itemize}
+	\item Minimalizacia
+	\item $g(\overline{x},y) = 0$
+	\item $g(\overline{x},z)$ je definovane $\forall z < y: z \in \mathbb{N}$
+	\item Inak zapisujeme
+		\begin{equation*}
+			f(\overline{x}) = \mu y[g(\overline{x},y) = 0]
+		\end{equation*}
+	\item Trieda parcialne rekurzivnych funkcii vznikne bud kombinaciou, kompoziciou, primitivnou rekurziou a minimalizaciou
+\end{itemize}
+
+\subsection*{Turingovsky vycislitelne funkcie}
+\begin{itemize}
+	\item TS $M$ vycisluje (pocita) parcialnu funkciu $f: \Sigma_{1}^{*m} \to \Sigma_{2}^{*n}$, ked pre kazdu
+		$(w_{1},w_{2},...w_{m})$ odpovedajucu konfiguracii pasky $\underline{\Delta}w_{1}\Delta w_{2}\Delta...\Delta w_{m}\Delta^{\omega}$
+		budto
+		\begin{itemize}
+			\item Zastavi s konfiguraciou $\underline{\Delta}v_{1}\Delta v_{2}\Delta...\Delta v_{n}\Delta^{\omega}$,
+				pokial $f(w_{1},w_{2},...,w_{m}) = (v_{1},v_{2},...,v_{n})$
+			\item Cykli, ked $f(w_{1},w_{2},...,w_{m})$ nie je definovane
+		\end{itemize}
+	\item \textbf{Parcialna funkcia, ktoru je mozne vycislit Turingovym strojom sa nazyva Turingovsky vycislitelna}
+\end{itemize}
+\textbf{Turingovska vycislitelnost parcialne rekurzivnych funkcii}
+\begin{itemize}
+	\item Uvazujeme TS nad $\{0,1\}$
+	\item Najskor TS, ktore vycisluju pociatocne funkcie $\xi,\sigma,\pi$
+		\begin{itemize}
+			\item $\xi$ -- $R0L$
+			\item $\sigma$ -- binarny inkrement, rozsirenie pasky
+			\item $\pi$ -- posun $k$-teho vstupu na zaciatok, prepisanie $k+1$-eho az $n$-teho vstupu
+		\end{itemize}
+	\item Kombinacia -- 3-paskovy TS, ktory na 2. paske vycisli $g_{1}$, na 3. paske vycisli $g_{3}$
+		a potom prekopiruje obsah tychto pasok na 1. pasku a oddeli pomcou $\Delta$
+	\item Kompozicia -- Vycisli $g_{1}$ a nasledne vycisli $g_{2}$
+	\item Primitivna rekurzia
+		\begin{itemize}
+			\item Na pasku zapisujeme postupne
+				$\Delta\overline{x}\Delta y\Delta\overline{x}\Delta y-1\Delta...\Delta\overline{x}\Delta0\Delta\overline{x}\Delta^{\omega}$
+			\item Hlavu posunieme na $\Delta$ pred poslednym $\overline{x}$ a spustime simulaciu $M_{g}$, ktory vycisluje $g$
+			\item Hlavu potom znova posunieme pred posledne $\overline{x}$ a spustame simulaciu $M_{h}$, ktory vycisluje $h$
+			\item Na konci mame vycislene $h(\overline{x},y,f(\overline{x},y))$ co odpoveda $f(\overline{x},y+1)$
+		\end{itemize}
+	\item Minimalizacia
+		\begin{itemize}
+			\item 3-paskovy TS
+			\item 1.paska -- vstup $\overline{x}$
+			\item 2.paska -- hladane minimalne $y$
+			\item 3.paska -- pracovna paska
+			\item Na 2. pasku zapis hodnotu $0$
+			\item Prekopiruje sa na 3. pasku obash 1. a 2. pasky a spusti sa $M_{g}$ na 3. paske
+			\item Ak sa $g$ vycisli na $0$, tak algoritmus prepise 2. pasku na 1. pasku, inak zvysi obsah 2. pasky o $1$
+				a pokracuje sa v simulacii na 3. paske
+		\end{itemize}
+\end{itemize}
+
+\textbf{Kazdy vypocetny proces vykonavany Turingovym strojom je vycislenim nejakej parcialne rekurzivnej funkcie}\\
+Dokaz je vytvorenie mnozstva funkcii ktore reprezentuju simulaciu TS
+
+\section{Zlozitost}
+Zlozitost (ciastocne) rozhodnutelnych problemov a ich rozhodovania
+\begin{itemize}
+	\item Mozeme rozlisit
+	\item Zlozitost najhorsieho pripadu
+	\item Zlozitost najlepsieho pripadu
+	\item Zlozitost priemerneho pripadu
+\end{itemize}
+\subsection*{Zlozitost vypoctu TS}
+\begin{itemize}
+	\item \textbf{Casova zlozitost} -- pocet prechodov TS, ktore sa musia vykonat
+	\item \textbf{Priestorova zlozitost} -- pocet buniek pasky TS, ktore su pozadovane na vypocet
+	\item \textbf{Pokial je casova zlozitost $n$, tak priestorova zlozitost nie je vacsia ako $n+1$}
+	\item $k$-paskovy DTS (NTS) prijma jazyk $L$ v case $T_{M}: \mathbb{N} \to \mathbb{N}$, pokial
+		$L = L(M)$ a $\forall w \in L$ prijme (moze prijat) v maximalne $T_{M}(|w|)$ krokoch
+	\item $k$-paskovy DTS (NTS) prijma jazyk $L$ v priestore $S_{M}: \mathbb{N} \to \mathbb{N}$, pokial
+		$L = L(M)$ a $\forall w \in L$ prijme (moze prijat) s pouzitim maximalne $S_{M}(|w|)$ buniek pasky
+\end{itemize}
+\subsection*{Zlozitost vypoctu mimo prostredie TS}
+\begin{itemize}
+	\item V inom prostredi ako TS nemusi mat kazda operacia rovnaku cenu
+\end{itemize}
+\subsection*{Asymptoticke obmedzenie zlozitosti}
+\begin{itemize}
+	\item Nech $\mathcal{F}$ je mnozina funkcii $f: \mathbb{N} \to \mathbb{N}$, pre danu funkciu $f$ definujeme mnoziny
+		$O(f(n)), \Theta(f(n))$ a $\Omega(f(n))$
+	\item $O(f(n))$ -- \textbf{Asymptoticke horne obmedzenie funkcie $f(n)$}
+		\begin{itemize}
+			\item $O(f(n)) = \{g(n) \in \mathcal{F} \pipesep \exists c \in R^{+}:\exists n_{0} \in \mathbb{N}: \forall n\ge n_{0}: g(n) \le c.f(n)\}$
+		\end{itemize}
+	\item $\Omega(f(n))$ -- \textbf{Asymptoticke dolne obmedzenie funkcie $f(n)$}
+		\begin{itemize}
+			\item $\Omega(f(n)) = \{g(n) \in \mathcal{F} \pipesep \exists c \in R^{+}:\exists n_{0} \in \mathbb{N}: \forall n\ge n_{0}: c.f(n) \le g(n)\}$
+		\end{itemize}
+	\item $\Theta(f(n))$ -- \textbf{Asymptoticke obojstranne obmedzenie funkcie $f(n)$}
+		\begin{itemize}
+			\item $\Theta(f(n)) = \{g(n) \in \mathcal{F} \pipesep \exists c_{1},c_{2} \in R^{+}:\exists n_{0} \in \mathbb{N}: \forall n\ge n_{0}: c_{1}.f(n) \le g(n) \le c_{2}.f(n)\}$
+		\end{itemize}
+\end{itemize}
+\subsection*{Zlozitost problemov}
+\begin{itemize}
+	\item Majme dane funkcie $t,s: \mathbb{N} \to \mathbb{N}$ a nech $T_{M}$, resp. $S_{M}$ znaci casovu resp. priestorovu zlozitost TS $M$
+	\item Definujeme nasledujuce triedy zlozitosti deterministickych a nedeterministickych TS
+		\begin{itemize}
+			\item \emph{DTime}$[t(n)] = \{L \pipesep \exists k-\text{paskovy DTS }M: L = L(M) \land T_{M} \in O(t(n))\}$
+			\item \emph{NTime}$[t(n)] = \{L \pipesep \exists k-\text{paskovy NTS }M: L = L(M) \land T_{M} \in O(t(n))\}$
+			\item \emph{DSpace}$[s(n)] = \{L \pipesep \exists k-\text{paskovy DTS }M: L = L(M) \land S_{M} \in O(s(n))\}$
+			\item \emph{NSpace}$[s(n)] = \{L \pipesep \exists k-\text{paskovy NTS }M: L = L(M) \land S_{M} \in O(s(n))\}$
+		\end{itemize}
+\end{itemize}
+\textbf{Bezne triedy zlozitosti problemov}\\
+\begin{itemize}
+	\item $P = \bigcup DTime[n^{k}]$
+	\item $NP = \bigcup NTime[n^{k}]$
+	\item $PSPACE = \bigcup DSpace[n^{k}]$
+	\item $NSPACE = \bigcup NSpace[n^{k}]$
+	\item $EXP = \bigcup DTime[2^{n^{k}}]$
+	\item $NEXP = \bigcup NTime[2^{n^{k}}]$
+	\item $EXPSPACE = \bigcup DSpace[2^{n^{k}}]$
+	\item $NEXPSPACE = \bigcup NSpace[2^{n^{k}}]$
+\end{itemize}
+
 
 \end{document}
 

@@ -705,4 +705,204 @@ Nech su $\mathcal{A}_{k} = (A_{k}, (\omega^{(k)}_{i})_{i \in I)}), k \in K$ alge
 	A = \displaystyle\prod_{k \in K} A_{k} = \{(a_{k})_{k \in K} \pipesep a_{k} \in K\}
 \end{equation*}
 Kartezsky sucin vsetkych $A_{k}$. Operacie sa vytvaraju ako nove operacie, ktore operuju nad relaciou.
+
+\section{Polynomy}
+\textbf{Polynom} -- Bud $(R,+,0,-,\cdot,1)$ komutativny okruh s jednotkovym prvkom. Vyraz tvaru $\sum{a_{k}x^{k}}$,
+kde $a_{k} \in R$ sa nazyva polynom
+
+\textbf{Stupen polynomu} -- maximalna mocnina $n$ polynomu ($\text{grad}p(x)$)
+
+\section{Metricke priestory}
+\textbf{Metricky priestor} -- dvojica $\chi = (X, \varrho)$, kde $X$ je mnozina ktorej prvy nazyva \textbf{body} a $\varrho$ je nezaporna
+realna funkcia $\varrho(x,y)$ ktoru nazyvame \textbf{metrika} ($\varrho: X \times X \to \mathbb{R}^{+}_{0}$), ktora splnuje 3 podmienky
+\begin{itemize}
+	\item $\forall x,y \in X: \varrho(x,y) = 0 \Leftrightarrow x = y$
+	\item $\forall x,y \in X: \varrho(x,y) = \varrho(y,x)$
+	\item $\forall x,y \in X: \varrho(x,y) + \varrho(y,z) \ge \varrho(x,z)$
+\end{itemize}
+
+\textbf{Diskretny metricky priestor}
+\begin{equation*}
+	\varrho(x,y) = \begin{cases}
+		0 \hspace{1cm} x = y \\
+		1 \hspace{1cm} x \not= y
+	\end{cases}
+\end{equation*}
+
+\textbf{Metricky priestor $\mathbb{R}^{1}$}
+\begin{equation*}
+	\varrho(x,y) = |x-y|
+\end{equation*}
+
+\textbf{Metricky priestor $\mathbb{R}^{n}$}
+\begin{equation*}
+	x = (x_{1},x_{2},...,x_{n})
+\end{equation*}
+\begin{equation*}
+	\varrho(x,y) = \sqrt{\sum{(y_{k} - x_{k})^{2}}}
+\end{equation*}
+
+\textbf{Metricky priestor $\mathbb{R}^{n}_{1}$}
+\begin{equation*}
+	x = (x_{1},x_{2},...,x_{n})
+\end{equation*}
+\begin{equation*}
+	\varrho(x,y) = \sum{|y_{k} - x_{k}|}
+\end{equation*}
+
+\textbf{Metricky priestor $\mathbb{R}^{n}_{0}$}
+\begin{equation*}
+	x = (x_{1},x_{2},...,x_{n})
+\end{equation*}
+\begin{equation*}
+	\varrho(x,y) = \max{|y_{k} - x_{k}|}
+\end{equation*}
+
+\textbf{Metricky priestor $C(\langle a,b \rangle)$} -- vsetky spojite realne funkcie definovane na intervale $\langle a,b \rangle$
+\begin{equation*}
+	\varrho(f,g) = \max{|g(t) - f(t)|}
+\end{equation*}
+
+\textbf{Otvorena gula $S(x_{0},r)$ v metrickom priestore $\chi$} -- mnozina bodov $x$ pre ktore plati
+\begin{equation*}
+	\varrho(x,x_{0}) < r
+\end{equation*}
+
+\textbf{Uzavreta gula $S[x_{0}, r]$}
+\begin{equation*}
+	\varrho(x,x_{0}) \le r
+\end{equation*}
+
+\subsection{Linearne normovane priestory}
+Nech $\mathcal{L}$ je neprazdna mnozina prvkov $x,y,z,...$ a nech su splnene tieto podmienky
+\begin{itemize}
+	\item $\mathcal{L}$ je komutativna grupa (asociatvita, neutralny prvok $\theta$, inverzne prvky $-x$, komutativita)
+	\item Ku kazdemu cislu $\alpha$ nejakeho telesa $T$ a ku kazdemu prvku $x \in \mathcal{L}$ je jednoznacne priradeny
+		prvok $\alpha x \in \mathcal{L}$) pricom plati
+		\begin{itemize}
+			\item $(\alpha\beta)x = \alpha(\beta x)$
+			\item $1.x = x$
+		\end{itemize}
+	\item Obe operacie su zviazane distribucnymi zakonmi
+		\begin{itemize}
+			\item $(\alpha + \beta)x = \alpha x + \beta x$
+			\item $\alpha(x+y) = \alpha x + \alpha y$
+		\end{itemize}
+\end{itemize}
+Mnozinu $\mathcal{L}$ potom nazyva \textbf{linearnym/vektorovym priestorom nad telesom $T$}. Prvky T $\alpha,\beta,...$ nazyvame
+\textbf{skalary}. Prvky $\mathcal{L}$ $x,y,...$ nazyvame \textbf{vektormi}.
+
+Linearny priestor $\mathcal{L}$ sa nazyva \textbf{normovany} ak kazdemu prvku $x \in \mathcal{L}$ je priradene nezaporne cislo
+$||x||$, ktore sa nazyva \textbf{norma k prvku $x$}, pricom pre kazde $x,y \in \mathcal{L}$ a $\alpha \in T$ plati
+\begin{itemize}
+	\item $||x|| = 0 \Leftrightarrow x = \theta$
+	\item $||\alpha x|| = |\alpha| . ||x||$
+	\item $||x+y|| \le ||x|| + ||y||$
+\end{itemize}
+
+\textbf{Norma v $\mathbb{R}^{1}$}
+\begin{equation*}
+	||x|| = |x|
+\end{equation*}
+
+\textbf{Norma v $\mathbb{R}^{n}$}
+\begin{align*}
+	||x||_{2} &= \sqrt{\sum{x_{k}^{2}}}\\
+	||x||_{1} &= \sum{|x_{k}|}\\
+	||x||_{0} &= \max{|x_{k}|}
+\end{align*}
+
+\textbf{Norma v $\mathbb{C}^{n}$}
+\begin{align*}
+	||x||_{2} &= \sqrt{\sum{|x_{k}|^{2}}}
+\end{align*}
+
+\textbf{Vseobecny vztah pre normu v n-rozmernom linearnom priestore}
+\begin{align*}
+	||x||_{p} &= (\sum{|x_{k}|^{p}})^{\frac{1}{p}}
+\end{align*}
+
+\textbf{Norma v $C\langle a,b \rangle$}
+\begin{align*}
+	||f|| &= \max{|f(t)|} \\
+	||f|| &= \sqrt{\int_{a}^{b}[f(t)]^{2}dt}
+\end{align*}
+
+\textbf{Linearna zavislost} -- mnozina vektorov $\{x_{1},x_{2},...,x_{n}\}$ sa nazyva linearne zavisla, pokial existuju take konstanty
+$\alpha_{1}, \alpha_{2}, ..., \alpha_{n}$, z ktorych aspon 1 je nenulova, ze
+\begin{equation*}
+	\alpha_{1}x_{1} + \alpha_{2}x_{2} + ... + \alpha_{n}x_{n} = \theta
+\end{equation*}
+V opacnom pripade sa nazyva linearne nezavisla
+
+\textbf{Linearna kombinacia} -- lin. kombinacia $x_{1}, x_{2}, ..., x_{n}$ je vyraz $\alpha_{1}x_{1} + \alpha_{2}x_{2} + ... + \alpha_{n}x_{n}$
+
+\textbf{Dimenzia} -- pokial v priestore $\mathcal{L}$ vieme najst $n$ lin. nezavislich vektorov, ale u $n+1$ su uz vsetky linearne zavisle,
+tak vravime ze priestor ma dimenziu $n$
+
+\textbf{Baza} -- V $n$ rozmernom priestore sa lubovolny system $n$ linearne nezavislych vektorov nazyva \textbf{baza}
+
+\textbf{Skalarny sucin} -- zobrazenie $(-,-) : R \times R \to \mathbb{R}$
+\begin{itemize}
+	\item $(x,y) = (y,x)$
+	\item $(x_{1} + x_{2},y) = (x_{1},y) + (x_{2},y)$
+	\item $(\lambda x,y) = \lambda(x,y)$
+	\item $(x,x) \ge 0$ pricom $(x,x) = 0$ len ak $x = \theta$
+\end{itemize}
+\textbf{Unitarny priestor} -- linearny priestor v ktorom je definovany skalarny sucin, norma sa v nom zavadza ako
+\begin{equation*}
+	||x|| = \sqrt{(x,x)}
+\end{equation*}
+\textbf{Kosinus uhlu dvoch nenulovych vektorov}
+\begin{equation*}
+	cos \varphi = \frac{(x,y)}{||x||.||y||}
+\end{equation*}
+\textbf{Ortogonalne vektory} -- Pokial $(x,y) = 0$ tak dostavame $\varphi = \frac{\pi}{2}$ a take vektory nazyvame \textbf{ortogonalne}
+
+\textbf{Ortogonalna sustava} -- Mnozina vektorov $\{x_{\alpha}\}$, kde $(x_{\alpha},x_{\beta}) = 0$ pre $\alpha \not= \beta$
+
+\textbf{Ortonormalna sustava}
+\begin{equation*}
+	(x_{\alpha},x_{\beta}) = \begin{cases}
+		0 \hspace{1cm} \alpha \not= \beta \\
+		1 \hspace{1cm} \alpha = \beta
+	\end{cases}
+\end{equation*}
+Ak je $\{x_{\alpha}\}$ ortogonalna sustava, tak $\{x_{\alpha}/||x_{\alpha}||\}$ je ortonormalna sustava
+
+\textbf{Skalarny sucin v $\mathbb{R}^{n}$}
+\begin{equation*}
+	(x,y) = \sum{x_{i}y_{i}}
+\end{equation*}
+
+\textbf{Skalarny sucin v $C\langle a,b \rangle$}
+\begin{equation*}
+	(f,g) = \int_{a}^{b}f(t)g(t)dt
+\end{equation*}
+
+\vspace{1cm}
+\textbf{Schmidtova veta o ortogonalizacii}
+
+Nech $f_{1},f_{2},...,f_{n},...$ je linearne nezavisly system prvkov v unitarnom priestore, potom v tomto priestore existuje system prvkov
+$\varphi_{1},\varphi_{2},...,\varphi_{n},...$, ktory splnuje tieto podmienky
+\begin{itemize}
+	\item Tento system je ortonormalny
+	\item Kazdy prvok $\varphi_{n}$ je linearnou kombinaciou prvkov $f_{1},f_{2},...,f_{n}$
+		\begin{equation*}
+			\varphi_{n} = a_{n1}f_{1} + ... + a_{nn}f_{n}
+		\end{equation*}
+	\item Kazdy prvok $f_{n}$ mozno vyjadrit v tvare
+		\begin{equation*}
+			f_{n} = b_{n1}\varphi_{1} + ... + b_{nn}\varphi_{n}
+		\end{equation*}
+\end{itemize}
+
+Dokaz
+\begin{itemize}
+	\item $\varphi_{1} = a_{11}f_{1} = \frac{f_{1}}{||f_{1}||}$
+	\item $a_{11} = \frac{1}{b_{11}} = \frac{1}{\sqrt{(f_{1},f_{1})}} = \frac{1}{||f_{1}||}$
+	\item $h_{n} = f_{n} - b_{n1}\varphi_{1} - ... - b_{nn-1}\varphi_{n-1}$
+	\item $\varphi_{n} = \frac{h_{n}}{||h_{n}||}$
+\end{itemize}
+
 \end{document}
